@@ -1,5 +1,23 @@
 # Language design
 
+## Why are there so many languages?
+* Different tradeoffs
+  - Guarantees vs Flexibility
+  - Performance vs Productivity
+  - etc
+* Different niches
+  - Web frontend development
+  - Systems development
+  - etc
+* Different paradigms
+* Different domains
+
+## Why woth studying language design? Very few people designs actual languages.
+* Similar skillset as designing a new API
+* Gain ability to choose the right language for the right task
+* Designing an embedded language is not uncommon
+* Considering tradeoffs helps to develop engineering approach
+
 ## Concepts
 * Syntax, semantics, pragmatics
 * Language categories
@@ -23,17 +41,31 @@
 
 * Help the lexer/parser
   - C declaration syntax ```double (*funptr)(double);```
+  - Easier to parse language implies better tooling support
+  - C syntax is environment dependent, this makes it hard to parse
+    - Function call or declaration? Depends on what S is. ``` S (x);```
+    - Multiplication or pointer definition? Depends on what T is. ```T * x```
+  - Problems with return type before the function
+    - In generic code the return type may depend on the arguments of the function
+    - Huge lookahead costs ```decltype(x+y) max(T x, T y);```
+    - C++ solution: ```auto max(T x, T y) -> decltype(x+y);```
+  - In modern languages the types tend to be after the variables
+    ```func square(x : Int) : Int```
 
 * Help the programmer to write correct code
   - Pascal or C type of use
+  - Goal: easy to use correctly hard to use incorrectly
+  - Flexibility vs guaranteed correctness tradeoffs
 
 * Too lazy
   - PL/I generated missing ```end``` keyword
   - Algol68 ```begin``` ```(``` interchangeable
   - Newline appears in strings?
+  - Implicit semicolons in Scala or Javascript
 
 * Too strict
   - Algol68 only implementation for ```skip``` statement
+  - Identation rules for FORTRAN
 
 * Goto?
 
@@ -60,6 +92,7 @@
 		
 * Switch statement in C
   - 90% of case statements require ```break```
+  - All of the cases must be constant expressions
 
 * C++11
   
@@ -69,7 +102,7 @@
   ```
 
   ```C++
-  for( Node n in parens[n] )
+  for( Node n : parens[n] )
   ```
 
 ## Semantics
@@ -79,11 +112,16 @@
   - Denotational
   - Operational
   - Textual
+* Type system
+  - Strong or Weak
+  - Static or Dynamic
+  - Advanced features (Concepts, parametric polymorphism...)
 
 ## Pragmatics
 
 * How to write good code
 * Programmers practices, design rules
+* What is idiomatic?
 
 * Scala
   - Optimize for immutable
@@ -105,6 +143,10 @@
 ## Language design concepts
 
 * Well-defined syntax and semantics
+  - Define what is implementation defined
+  - Implementation defined features sometimes required to support some platforms
+  - Define what is undefined
+  - Undifend behavior gives compilers opportunity to optimize
 * Expressivity
   - An APL 256 operators
   - Redundancy is important
@@ -125,8 +167,10 @@
   - Pascal P code, COBOL
 * Performance
   - Garbage collection
-  - Optimization vs debuggings
+  - Optimization vs debugging
 * Learnability
+* Flexibility
+  - Opt-in or opt-out features (e.g.: RTTI in C++)
 
 ## Implementation
 
