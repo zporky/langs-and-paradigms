@@ -63,14 +63,14 @@
 
 * C++11
   
-```C++
-vactor<vector<Node>> parents;
-int n = index_of_parents();
-```
+  ```C++
+  vector<vector<Node>> parents;
+  int n = index_of_parents();
+  ```
 
-```C++
-for( Node n in parens[n] )
-```
+  ```C++
+  for( Node n in parens[n] )
+  ```
 
 ## Semantics
 
@@ -90,7 +90,7 @@ for( Node n in parens[n] )
 * C++
   - Use RAII, Pimpl, use const correctness
 * C
-  ```if ( 5 == strlen(str) )```
+  - ```if ( 5 == strlen(str) )```
 
 ## Language specification
 
