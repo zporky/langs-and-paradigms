@@ -12,7 +12,7 @@
 * Different paradigms
 * Different domains
 
-## Why woth studying language design? Very few people designs actual languages.
+## Why is it woth to study language design? Very few people designs actual languages.
 * Similar skillset as designing a new API
 * Gain ability to choose the right language for the right task
 * Designing an embedded language is not uncommon
