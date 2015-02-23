@@ -68,7 +68,11 @@ Let's see the following examples. You can try them out at [http://www.tutorialsp
 |Python    | ```False``` | |
 |Ruby      | ```false``` | |
 
+### ```Integer(4) == Integer(4)```
+
 ## Type checking
+
+## Strong/Weak vs Static/Dynamic
 
 ### Type definitions
 
@@ -95,7 +99,7 @@ Let's see the following examples. You can try them out at [http://www.tutorialsp
     data MTime = Dt (Int, Int, Int)
     ```
 
-  - Sum types
+  - Sum types (generalization of Enum)
  
     ```haskell
     data List a = Nil | Cons a (List a)
@@ -149,10 +153,22 @@ by Bertrand Meyer
 * C++
   - ```auto```
   - ```decltype```
+  - ```enum```
+  - Covariant return types
+  - Contracts, SFINAE, constraints
+
+* Scala
+  - Variant template parameters
+
+* Rust, Lisp (Closure, Scheme)
+  - library level syntax&semantics extensions
+
+* Agda, Idris
+  - Dependent typing
 
 ### Dynamic languages
 
-* lint
+* *lint
 * dialyzer
 
 
