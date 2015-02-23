@@ -35,6 +35,36 @@ small bug.
 
 ## What is a type error?
 
+We can define type error as a misuse of a language contruct causing an
+undesired interpretation of data.
+
+Let's see the following examples.
+
+### ```"4" == "4"```
+
+| Language | Value | Reason |
+|:--------:|-------|--------|
+|C/C++     | unspecified | "4" is ```char*```   |
+|Javascript| ```true```  | Objects are compared |
+|GO        | ```true```  | |
+|C#        | ```True```  | |
+|PHP       | ```true```  | |
+|Perl      | ```true```  | |
+|Ruby      | ```true```  | |
+
+### ```4 == "4"```
+
+| Language | Value | Reason |
+|:--------:|-------|--------|
+|C/C++     | unspecified | "4" is ```char*```   |
+|Javascript|   | |
+|GO        |   | |
+|C#        |   | |
+|PHP       |   | |
+|Perl      |   | |
+|Ruby      |   | |
+
+
 ## Type checking
 
 ### Type definitions
