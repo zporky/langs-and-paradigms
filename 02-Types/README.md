@@ -38,32 +38,35 @@ small bug.
 We can define type error as a misuse of a language contruct causing an
 undesired interpretation of data.
 
-Let's see the following examples.
+Let's see the following examples. You can try them out at [http://www.tutorialspoint.com/codingground.htm].
 
 ### ```"4" == "4"```
 
 | Language | Value | Reason |
 |:--------:|-------|--------|
 |C/C++     | unspecified | "4" is ```char*```   |
+|D         | ```true```  | |
 |Javascript| ```true```  | Objects are compared |
 |GO        | ```true```  | |
 |C#        | ```True```  | |
 |PHP       | ```true```  | |
 |Perl      | ```true```  | |
+|Python    | ```True```  | |
 |Ruby      | ```true```  | |
 
 ### ```4 == "4"```
 
 | Language | Value | Reason |
 |:--------:|-------|--------|
-|C/C++     | unspecified | "4" is ```char*```   |
-|Javascript|   | |
-|GO        |   | |
-|C#        |   | |
-|PHP       |   | |
-|Perl      |   | |
-|Ruby      |   | |
-
+|C/C++     | error | |
+|D         | error | |
+|Javascript| ```true``` | |
+|GO        | error | |
+|C#        | error | |
+|PHP       | ```true``` | |
+|Perl      | ```true``` | |
+|Python    | ```False``` | |
+|Ruby      | ```false``` | |
 
 ## Type checking
 
@@ -84,7 +87,7 @@ Let's see the following examples.
   - set
   - class
 
-* Built-in types
+* Built-in types vs. User-defined types
 * Algebaric types
 
 ### Type equivalence
@@ -95,6 +98,9 @@ Let's see the following examples.
 ### Subtyping
 
 #### Liskov substitution principle
+
+"It states that, in a computer program, if S is a subtype of T, then objects of type T may be replaced with objects of type S (i.e., objects of type S may substitute objects of type T) without altering any of the desirable properties of that program (correctness, task performed, etc.)."
+Source: [http://en.wikipedia.org/wiki/Liskov_substitution_principle]
 
 ### Design by contract
 
@@ -120,8 +126,20 @@ by Bertrand Meyer
 ### Modern language incarnations
 
 * C#
+
+    ```C#
+    // Query variable is an IEnumerable<IGrouping<string, Student>> 
+    var studentQuery3 =
+        from student in students
+        group student by student.Last;
+    ```
+
 * C++
+  - ```auto```
+  - decltype
 * Scala
+  - ```var```
+  - ```val```
 
 ### Dynamic languages
 
