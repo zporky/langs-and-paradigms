@@ -7,7 +7,7 @@
 
 ## Typeless languages
 
-In assembly you can only deal with buts, bytes, and
+In assembly you can only deal with bits, bytes, and
 words. Representing the operations on even the most basic numeric
 types require tedious manual work. Like in the following example where
 two long numbers are added.
