@@ -89,6 +89,18 @@ Let's see the following examples. You can try them out at [http://www.tutorialsp
 
 * Built-in types vs. User-defined types
 * Algebaric types
+  - Product types
+ 
+    ```haskell
+    data MTime = Dt (Int, Int, Int)
+    ```
+
+  - Sum types
+ 
+    ```haskell
+    data List a = Nil | Cons a (List a)
+    ```
+
 
 ### Type equivalence
 
