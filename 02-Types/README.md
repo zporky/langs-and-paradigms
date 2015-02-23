@@ -136,10 +136,7 @@ by Bertrand Meyer
 
 * C++
   - ```auto```
-  - decltype
-* Scala
-  - ```var```
-  - ```val```
+  - ```decltype```
 
 ### Dynamic languages
 
