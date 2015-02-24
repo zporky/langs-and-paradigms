@@ -207,7 +207,7 @@
 
 * New features/keywords
   - Reverse compatibility issues
-  - Depricated elements
+  - Deprecated elements
   - Silent semantic changes?
 * Successful
   - C++: delete functions, auto keyword, overload
