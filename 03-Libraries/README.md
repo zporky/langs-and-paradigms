@@ -5,6 +5,11 @@
 * Enforce modularity, encapsulation, abstractions
 * Libraries can be products
 
+## Language design aspects
+* Language feature vs library feature
+* Include to the standard libraries or not?
+* Language and standard library entanglement (e.g.: C++ type id)
+
 ## Library distribution
 * What license?
 * Are debug builds distributed?
@@ -26,6 +31,39 @@
   * Easier to integrate into the build process
   * Easier to debug
   * Same advantages/disadvantages as static linking
+* Software As A Service
+  * Easy to update the whole stack (fix security issues)
+  * Users use consistent version, less support effort required
+  * More infrastructural costs (server farms)
+
+## Size of a library
+* Library
+  * Set of functionality to help solve a specific task
+* Framework
+  * Set of libraries
+  * Extensible
+  * Inversion of control (e.g.: event loop in gui frameworks)
+  * Default behavior
+* Software platform
+  * Whole environment for programs to run in
+  * High level of abstractions
+
+## Type of a library
+* Stateless API calls
+* Statefull API calls (e.g.: strtok)
+  * Concurrency?
+* State stored in objects (e.g.: std::regex)
+* Class hierarchies (e.g.: java frameworks)
+* Generic programming
+  * Proxy classes, templates, generics
+* API or EDSL?
+
+## Library interactions
+* Libraries developed in multiple languages
+  * Some features do not work across binary boundaries
+* Foreign Function Interfaces (FFI)
+* Calling conventions
+* Wrapper generators (e.g.: swig)
 
 ## Code evolution
 * Every library will have new versions
@@ -46,7 +84,7 @@
   * Not always trivial to check (e.g.: added a new virtual method)
   * PIMPL idiom
   * Possible solution: always rebuild everything, but you can not rebuild at your user's machine
-* License might change 
+* License might change (e.g.: FreeBSD had to use outdated gcc for years due to license issues. Now they use clang.)
 
 ## Library dependency hell
 * Conflicting dependencies
