@@ -5,6 +5,8 @@
 * Enforce modularity, encapsulation, abstractions
 * Libraries can be products
 
+![Image of Yaktocat](http://imgs.xkcd.com/comics/python.png)
+
 ## Language design aspects
 * Language feature vs library feature
 * Include to the standard libraries or not?
@@ -12,9 +14,10 @@
 
 ## Library distribution
 * What license?
-* Are debug builds distributed?
+* Are debug and profiling builds distributed?
   * How to debug misuses?
   * Reverse engineering
+  * cabal builds every package with both profiling turned on and off
 * Static linking
   * Well tested set of libraries
   * Smaller disk space footprint
@@ -57,6 +60,9 @@
 * Generic programming
   * Proxy classes, templates, generics
 * API or EDSL?
+* Goal: easy to use well and hard to misuse
+  * It is better to enforce a rule with type system rather than relying on users reading documentation
+  * Define soft undefined behaviors in documentation (e.g.: result of sqrt is undefined on negatives)
 
 ## Library interactions
 * Libraries developed in multiple languages
@@ -101,6 +107,8 @@
     * No conflict when different processes use different version of the same library
     * Processes communicating over network, scales well horizontally 
     * IDLs to describe the protocols/RPC interface (Google's protobuf, Facebook's thrift)
+  * Library incompatibility
+    * Two different libraries may use different threading and locking methods that do not work together
 * Too many dependencies
   * Hard to set up development environment
   * Several thousand characters long compilation command lines impossible to type
@@ -132,6 +140,8 @@
   * the greater size the package has
   * security updates needed more often
   * the greater the memory footprint is (less sharing through address spaces)
+* How to test that all the dependencies are properly handled during build, deployment, execution?
+  * chroot environments
 
 ## Package manager for libraries
 * More and more popular concept
@@ -144,3 +154,7 @@
 * Dependency hell for applications and libraries
 * Easy to patch the security issues
 * Trust
+  * May run with elevated privileges
+  * Corrupt repositories
+  * Executing scripts
+  * Man in the middle
