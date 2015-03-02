@@ -1,4 +1,4 @@
-# Using libraries, package managers, dependency hell
+# Libraries, package managers, dependency hell
 
 ## Why use libraries?
 * Code reuse
