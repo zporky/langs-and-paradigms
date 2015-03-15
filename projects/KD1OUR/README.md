@@ -1,4 +1,3 @@
-__Név:__ Rónai Péter
-__Neptun:__ KD1OUR
+__NÃ©v:__ RÃ³nai PÃ©ter  
+__Neptun:__ KD1OUR  
 __GitHub:__ conTroll  
-
