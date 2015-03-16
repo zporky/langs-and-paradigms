@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Átmenet függvény (nyelvtani szabályok)
+ * átmenet függvény (nyelvtani szabályok)
  */
 public final class ProductionRules {
 
