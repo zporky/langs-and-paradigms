@@ -1,6 +1,6 @@
 # Logging, debugging, tracing, profiling
 
-![img](http://www.phdcomics.com/comics/archive/phd011406s.gif)
+![img](images/phd011406s.gif)
 
 ## What to do when something is not working?
 
@@ -41,7 +41,7 @@
 
 #### by debugging
 
-* lldb example
+* ```faulty.cpp``` example
 * no source modificaion
 * recompilatation may be needed
 * ideal for sequential programs
@@ -52,7 +52,7 @@
 
 #### by tracing
 
-* egol example
+* RefactorErl example
 * no source modification
 * ideal on concurrent systems
 * not working on embedded systems with limited resources
@@ -63,44 +63,45 @@
 * built-in to the source code
 * debug levels
   * INFO, LOW, MEDIUM, HIGH, CRITICAL
-  * 0, ..., 9
+  * debug level: 0, ..., 9
 * works on live systems
-* no performance overhead
+* no performance overhead when not activated
 * might be runtime performance issue
 
 ### What about runtime properties?
 
-* No fault in logic
-* Slow performance
-* Memory leaks
-* Memory consumption
-* Network usage
+* no fault in logic
+* slow performance
+* memory leaks
+* memory consumption
+* network usage
 
 #### by logging
 
-* Offline or online analytics
-* Metrics tools
+* offline or online analytics
+* metrics tools
 
 #### by profiling
 
-* Saving runtime details to intermediary format
-* Analyzing data offline
-* Detailed/interactive report
-* Ideal to find bottlenecks
-* Memory leak detection
-* Kind of art to interpret data
-* Two kinds
-  * Intrumentation based
-  * Sampling based
-* Valgrind-family
+* saving runtime details to intermediary format
+* analyzing data offline
+* detailed/interactive report
+* ideal to find bottlenecks
+* memory leak detection
+* kind of art to interpret data
+* two kinds
+  * intrumentation based
+  * sampling based
+* valgrind-family
+* performance metrics
 
 ### Debugger features
 
-* Python script integration
-* Conditional break point, counters
-- Pretty printer (for specific datas tructures)
-- Watch point (break, if memory area has been modified)
-- Set next statement
+- python script integration
+- conditional break point, counters
+- pretty printer (for specific datas tructures)
+- watch point (break, if memory area has been modified)
+- set next statement
 - fork follow mode (attach to child process?)
 - signal handling
 - remote debugging
