@@ -93,3 +93,17 @@
   * Intrumentation based
   * Sampling based
 * Valgrind-family
+
+### Debugger features
+
+* Python script integration
+* Conditional break point, counters
+- Pretty printer (for specific datas tructures)
+- Watch point (break, if memory area has been modified)
+- Set next statement
+- fork follow mode (attach to child process?)
+- signal handling
+- remote debugging
+- threads
+- checkpoint (go back to previous program state)
+- value history
