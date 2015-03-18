@@ -1,6 +1,6 @@
-import statemachine.StateMachine;
-import statemachine.model.ProductionRules;
-import statemachine.model.StateMachineState;
+import statemachine.java.StateMachine;
+import statemachine.java.model.ProductionRules;
+import statemachine.java.model.StateMachineState;
 
 import java.util.Scanner;
 

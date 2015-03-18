@@ -1,4 +1,4 @@
-package statemachine.model;
+package statemachine.java.model;
 
 /**
  * A terminális szimbúlumok fajtája, ahogy a feladatleírásban szerepelnek.

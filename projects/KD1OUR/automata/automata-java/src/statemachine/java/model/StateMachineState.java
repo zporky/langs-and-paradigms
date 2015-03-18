@@ -1,4 +1,4 @@
-package statemachine.model;
+package statemachine.java.model;
 
 /**
  * Az automata állapota (a szabály neve, avagy nemterminális szimbólumok)

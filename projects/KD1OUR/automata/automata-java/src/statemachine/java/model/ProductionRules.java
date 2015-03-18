@@ -1,6 +1,6 @@
-package statemachine.model;
+package statemachine.java.model;
 
-import statemachine.ProductionRuleRHS;
+import statemachine.java.ProductionRuleRHS;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,7 @@
-package statemachine;
+package statemachine.java;
 
-import statemachine.model.StateMachineState;
-import statemachine.model.TerminalSymbol;
+import statemachine.java.model.StateMachineState;
+import statemachine.java.model.TerminalSymbol;
 
 import java.util.Map;
 
