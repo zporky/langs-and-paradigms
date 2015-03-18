@@ -11,7 +11,7 @@ Simon Bence
 
 # Futtatás
 - A futtatáshoz GHCi Haskell futtató környezet szükséges. Ebbe belépve a modult be kell tölteni
-- A :cd parancs segítségével lépkedjünk a megfelelő mappába, majd a :load Allapotgep.hs segitségével töltsük be
+- A :cd parancs segítségével lépkedjünk a megfelelő mappába, majd a :load StateMachine.hs segitségével töltsük be
 - Ekkor lehetőségünk nyílik a test paranccsal a megadott teszteseteket (és néhány egyebet is) futtatni
 - Valamint a runner paranccsal az elvárt interaktív felületet elindítani
 - A runner futásából egy üres sor (csak enter) bevitelének segítségével léphetünk ki

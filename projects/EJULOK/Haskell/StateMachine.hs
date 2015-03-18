@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleContexts #-}
 
-module Allapotgep where
+module StateMachine where
 
 import Data.Char (chr, ord)
 import Data.List (isPrefixOf, maximumBy)
