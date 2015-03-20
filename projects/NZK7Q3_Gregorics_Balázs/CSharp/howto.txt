@@ -1,10 +1,10 @@
-Használat:
+ï»¿HasznÃ¡lat:
 Windows > cmd (Console)
 >ProgrammingLanguagesAndParadigms2Task1.exe filepath
-filepath= A beolvasandó fájl neve.
+filepath= A beolvasandÃ³ fÃ¡jl neve.
 
 pl:
 >ProgrammingLanguagesAndParadigms2Task1.exe ./Examples/Example1.txt
 
 Gondolatok:
-	- A legelejétõl egy függvényt akartam túlterhelni, hogy ugyanazon a néven lehessen rá hivatkozni, és a paraméterlista alapján legyen eldönthetõ, hogy melyik állapot átmenetet kell meghívni valójában.
+	- A legelejÃ©tÅ‘l egy fÃ¼ggvÃ©nyt akartam tÃºlterhelni, hogy ugyanazon a nÃ©ven lehessen rÃ¡ hivatkozni, Ã©s a paramÃ©terlista alapjÃ¡n legyen eldÃ¶nthetÅ‘, hogy melyik Ã¡llapot Ã¡tmenetet kell meghÃ­vni valÃ³jÃ¡ban.

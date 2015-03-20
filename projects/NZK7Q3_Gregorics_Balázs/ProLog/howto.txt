@@ -1,14 +1,14 @@
-Használat:
+ï»¿HasznÃ¡lat:
 Windows > SICSTUS ProLog 4.3.1
 Consult/Compile ProgrammingLanguagesAndParadigms2Task1.pl
 
-Alapértelmezett fájlok használata:
+AlapÃ©rtelmezett fÃ¡jlok hasznÃ¡lata:
 | ?- main.
-Saját fájlok használata:
+SajÃ¡t fÃ¡jlok hasznÃ¡lata:
 | ?- main(infile, outfile).
 
 pl:
 | ?- main('C:/Examples/Example1.txt', 'C:/Examples/Output1.txt').
 
 Gondolatok:
-	- A fájl mûveletek voltak nehézkesek, ezeknek utána kellett néznem a többi eléggé magától jött, fõleg, mivel korábban csináltam meg a C#-os megoldást.
+	- A fÃ¡jl mÅ±veletek voltak nehÃ©zkesek, ezeknek utÃ¡na kellett nÃ©znem a tÃ¶bbi elÃ©ggÃ© magÃ¡tÃ³l jÃ¶tt, fÅ‘leg, mivel korÃ¡bban csinÃ¡ltam meg a C#-os megoldÃ¡st.
