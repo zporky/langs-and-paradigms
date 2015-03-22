@@ -5,24 +5,25 @@ import statemachine.scala.model.TerminalSymbol._
 import statemachine.scala.model.ProductionRules._
 
 /**
- * Implementation of the state machine.
+ * Az automata algoritmusának implementációja.
  */
 object StateMachine {
 
   def process(input : String) : String = {
 
     def processSymbols(input : Seq[Option[TerminalSymbol]], state : StateMachineState) : Option[StateMachineState] = {
-      // we are finished, just return the last state
+      // végeztünk, adjuk vissza az utolsó állapotot
       if (input.isEmpty) Some(state)
       else {
-        // we had an invalid character in the input, return None
+        // érvénytelen karakter volt a stringben (nincs hozzá definiált terminális szimbólum)
         if (input contains None) None
         else {
-          // apply the corresponding rule, see if the application was successful
-          // (the terminal character is accepted in the current state)
+          // az állapotnak és szimbólumnak megfelelően alkalmazzuk a szabályt
+          // ellenőrizzük, hogy az adott állapotban az adott szimbólumhoz tartozik-e állapot-átmenet
           val stepResult = applyRule(state)(input.head.get)
           if (!stepResult.newState.isDefined) None
           else {
+			// nézzük meg, hogy az adott állapot-átmenet feldolgozza-e a karaktert, vagy láncszabály
             if(stepResult.terminalProcessed) processSymbols(input.tail, stepResult.newState.get)
             else processSymbols(input, stepResult.newState.get)
           }
@@ -30,15 +31,19 @@ object StateMachine {
       }
     }
 
-    // parse characters as terminal symbols, and call processSymbols with start state
+    // a karaktereket megfeleltetjük terminális szimbúloknak, majd feldolgozzuk őket a fent definiált process függvénnyel
     val terminalSymbols = input.map(x => getTerminalSymbol(x))
     val lastState = processSymbols(terminalSymbols, START_SIGNED)
 
-    // check if all the terminal were valid, and if the last state is a final state
+    // amennyiben valamely karakter érvénytelen volt (vagy mert nem egy érvényes terminális, vagy mert olyan állapotban
+	// következett, ahol nem következhet), vagy az utolsó állapot nem elfogadó állapot, akkor az eredmény "FAIL"
     if(!lastState.isDefined || !isFinalState(lastState.get)) "FAIL" else {
-      // some formatting if the input was valid
+      // egy kis output formázás, ha az automata elfogadta az inputot
+	  // előjel levágása
       val output = if(terminalSymbols.head.get == SIGN) input.tail else input
 
+	  // hiányzó 0-k pótlása a szám elejéről/végéről
+	  // a korrigálás mikéntje kitalálható az utolsó állapot és terminális szimbólum ismeretében
       lastState.get match {
         case LEGAL_STATE_1 => "OK 0" + output
         case LEGAL_STATE_2 => "OK 0"

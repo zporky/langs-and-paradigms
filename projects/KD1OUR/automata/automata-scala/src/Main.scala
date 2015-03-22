@@ -1,12 +1,8 @@
-import scala.io.Source
 import statemachine.scala.StateMachine._
 
-/**
- * Application entry point.
- */
-object Main {
+import scala.io.Source
 
-  var input : String = null
+object Main {
 
   def main(args : Array[String]): Unit = {
     for(ln <- Source.stdin.getLines()) println(process(ln))

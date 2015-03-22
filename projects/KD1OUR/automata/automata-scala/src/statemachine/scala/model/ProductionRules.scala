@@ -4,26 +4,27 @@ import statemachine.scala.model.TerminalSymbol._
 import statemachine.scala.model.StateMachineState._
 
 /**
- * Contains the production rules for the implemented state machine.
+ * A produkciós szabályokat tartalmazza.
  */
 object ProductionRules {
 
   /**
-   * Result of a step in the state machine.
+   * Az automata egy lépésének eredménye.
    *
    * @param newState
-   *                 the new state in which we have to step if the terminal symbol is allowed in the current state,
-   *                 None otherwise
-   * @param terminalProcessed
-   *                 <code>true</code> if we successfully processed the terminal symbol,
-   *                 <code>false</code> otherwise, eg. when we applied a chain rule
-   *
+   *                 az új állapot, amelybe lépünk, amennyiben létezett érvényes állapot-átmenet
+   *                 <code>None</code>, egyébként
+   * @param terminalProcessed 
+   *	<ul>
+   *                 <li><code>true</code>, ha a terminális szimbólumot feldolgoztuk</li>
+   *                 <li><code>false</code>, egyébként (pl. ha láncszabályt alkalmaztunk)</li>
+   *	</ul>
    */
   case class RuleResult(newState: Option[StateMachineState], terminalProcessed : Boolean = true)
 
   val FAIL = RuleResult(None, false)
 
-  // Production rules here:
+  // Innentől a produkciós szabályok:
   def applyRule(state : StateMachineState)(symbol : TerminalSymbol) : RuleResult = {
     state match {
       case START_SIGNED => symbol match {
