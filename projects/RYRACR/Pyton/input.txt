@@ -1,0 +1,14 @@
+1
+-3.14
+0
++0.1
+.1
+1
+.
++x1
+-
+3.14e-2
+-112.321
+-.321
+1.01
+az elozo nem elfogadhato a feladat kiirasa szerint
