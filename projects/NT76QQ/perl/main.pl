@@ -5,7 +5,7 @@ use StateMachine;
 
 ### START main ###
 my $sm = StateMachine->create();
-print "start task1\n";
+#print "start task1\n";
 
 # read from STDIN while not EOF
 while (my $line = <STDIN>) {
