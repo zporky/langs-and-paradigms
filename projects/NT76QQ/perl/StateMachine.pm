@@ -41,6 +41,7 @@ sub create {
 	return ( bless( $self, $class ) );
 }
 
+# objectum reset. Clear all, and state will be STATE_S0 
 sub reset {
 	my $self = shift;
 
@@ -50,6 +51,7 @@ sub reset {
 	return $self;
 }
 
+# calculate the result
 sub do {
 	my $self = shift;
 
@@ -288,9 +290,14 @@ StateMachine
 
 =head1 SYNOPSIS
 
+TODO
 
 =head1 DESCRIPTION
 
+TODO
+
 =head1 AUTHOR
+
+Magnucz Ferenc (fmagnucz@gmail.com)
 
 =cut

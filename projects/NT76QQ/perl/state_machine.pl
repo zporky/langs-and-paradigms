@@ -24,3 +24,15 @@ while (my $line = <STDIN>) {
 }
 
 ### END main ###
+
+__END__
+
+=head1 What is this?
+
+TODO
+
+=head1 AUTHOR
+
+Magnucz Ferenc (fmagnucz@gmail.com)
+
+=cut

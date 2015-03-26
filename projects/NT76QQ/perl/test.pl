@@ -30,27 +30,6 @@ print "Testing\n";
 ### StateMachine tests ###
 require_ok('StateMachine');
 
-#$testName = "%StateMachine::terminals";
-#foreach my $i ("+","-",".",0..9) {
-##		$ok &&
-##		( ($i =~ /^[+-]$/ && $StateMachine::terminals{$i} eq 's')
-##		  || ($i eq "." && $StateMachine::terminals{$i} eq 'p')
-##		  || ($i == 0 && $StateMachine::terminals{$i} eq 'z')
-##		  || ($i =~ /^[1..9]$/ && $StateMachine::terminals{$i} eq 'd')
-##		)
-##	) {
-##		$ok = 0;
-#	if ( $ok ){
-#	} else {
-#
-#	}
-#}
-#if ($ok) {
-#	pass($testName);
-#} else {
-#	fail($testName);
-#}
-
 $testName = "StateMachine constructor";
 my $sm = StateMachine->create();
 is_deeply(
