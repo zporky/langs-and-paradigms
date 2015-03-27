@@ -11,7 +11,7 @@ majdnem ugyanazok.
 Perl verzió
 -----------
     Objektum orientáltan lett a feladat megvalósítva. Néhány regulásris kifejezéssel ebben a nyelvben
-    hamarabb célt lehet írni, de most direkt az állapotgépes változatot csináltam meg.
+    hamarabb célt lehet volna írni, de most direkt az állapotgépes változatot csináltam meg.
     A perl alapvetően nem egy objektum orientált nyelv, de van néhány eszköz, aminek a segítségével
     objektumorientált gondolkozással lehet programozni benne. A láthatóság gyakorlatilag nem létezik
     benne, ezért bárki, bármit, bárhonnan elérhet. A tesztelés esetén ez könnyebség, mert a
@@ -24,7 +24,7 @@ Perl verzió
     Egy főprogramból és egy StateMachine oszályból áll a program. A logika gyakorlatilag a
     StateMachine osztályban lett megvalósítva.
     
-    A tesztprogram megírása és a program hiáinak javítása (nem volt túl sok), legalább annyi ideig
+    A tesztprogram megírása és a program hibáinak javítása (nem volt túl sok), legalább annyi ideig
     tartott, mint ameddig a programot elkészítettem. Ez azért annak is betudható, hogy kijöttem a
     gyakorlatból és néhány szintaktikai dolognak utána kellett néznem.
     
@@ -37,13 +37,14 @@ Haskell verzió
     benne, de azért szerintem jól olvasható, és érthető.
     
     Viszont a tanulság az, hogy ha az ember agya már rááll erre a gondolkodásmódra, akkor sokkal
-    hamarabb lehet célt ezzel a nyelvvel, mint bármelyik iteratívval. A típusok nagyon sokat segítenek
+    hamarabb lehet célt érni ezzel a nyelvvel, mint bármelyik imperatívval. A típusok nagyon sokat segítenek
     a programozás során, gyakorlatilag felesleges a kommentelés, mert olvasható marad a kód. Csak oda
     kell komment, ahol valami trükközést kell csinálni. Van egy ilyen a kódban.
     
     Véleményem szerint ezt a kódot jobban lehet olvasni, de az tény, hogy kell érteni a típusok és a
     matematika nyelvén. Aki nem tud absztrakt függvényekben gondolkodni, az sosem fog tudni ebben a
-    nyelvben programozni.
+    nyelvben programozni. Ellenben Perl vagy más hasonló imperativ nyelvben lehet matematikai tudás
+    nélkül is programozni.
     
     Amikor programozok, vagy programokat tervezek, akkor mindig kívülről szoktam befele haladni, azaz
     először a fő problémát fogalmazom meg absztrakt függvényekkel, majd az absztrakt függvényeket
@@ -52,10 +53,12 @@ Haskell verzió
     
 Konklúzió
 ---------
-    Perlben ~300 sor a program dokumentáció és teszt modul nélkül, míg Haskellben megírva ugyanez 140 sor.
-    Időben is kevesebb ideig tartott a Haskell változatot megírni, még úgy is, hogy nem vagyok gyakorlott
-    Haskell programozó. A Haskell verzió kommentek nélkül is olvasható és áttekinthető, míg a perl.
-    A karakter feldolgozó függvény összerendelését perl-ben is meg lehetett volna csinálni úgy hogy a
-    feldolgozó eljárásokra mutató pointereket teszem a tömbbe, de akkor ott ez nem jutott eszembe. Illetve
-    iteratív környezetben ez rendszerint veszélyes, illetve nehezebb olvasni a kódot is. Talán ezért nem
-    gondoltam erre akkor. :-)
+    Perlben megírva közel 300 sor a program, dokumentáció (az nem is készült el, csak a helye van meg)
+    és teszt modul nélkül, míg Haskellben megírva ugyanez 140 sor. Időben is kevesebb ideig tartott a
+    Haskell változatot megírni, még úgy is, hogy nem vagyok gyakorlott Haskell programozó. A Haskell
+    verzió kommentek nélkül is olvasható és áttekinthető, míg a perl változatról ez nem mondható el.
+    A karakter és a feldolgozó függvény összerendelését perl-ben is meg lehetett volna csinálni úgy, hogy
+    a feldolgozó eljárásokra mutató pointereket teszem a tömbbe, de akkor ott ez nem jutott eszembe.
+    Illetve Perlben és C++-ban ez rendszerint veszélyes is, ha többen írnak egy programot, illetve
+    nehezebb olvasni a kódot is. Talán ezért nem gondoltam erre akkor. :-)
+    
