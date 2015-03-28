@@ -11,6 +11,9 @@ namespace ProgNyelvekBead.StateMachine
     {
         protected IState startState;
 
+        /**
+         * Get the accumulated value of the state machine 
+         */
         public String Value
         {
             get
@@ -21,11 +24,19 @@ namespace ProgNyelvekBead.StateMachine
 
         protected String readValue;
 
+        /**
+         * 
+         * Create the stateMachine object
+         * 1.st parameter is the statring state of the machine
+         */
         public StateMachine(IState sS)
         {
             startState = sS;
         }
-
+        
+        /** 
+         * start the state machine
+         */
         public bool run()
         {
             Boolean success = true;

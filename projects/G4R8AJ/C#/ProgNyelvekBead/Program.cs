@@ -14,9 +14,12 @@ namespace ProgNyelvekBead
         static void Main(string[] args)
         {
             String line = Console.ReadLine();
+            // EOF Eqvivalent in C# is null 
             while(line != null)
             { 
+                //Create the startState
                 SignedStart start = new SignedStart(line, "");
+                //Create the StateMachine
                 StateMachine.StateMachine machine = new StateMachine.StateMachine(start);
                 bool success = machine.run();
 

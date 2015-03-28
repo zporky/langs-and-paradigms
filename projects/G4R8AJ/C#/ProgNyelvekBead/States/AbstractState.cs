@@ -70,12 +70,21 @@ namespace ProgNyelvekBead.States
             this.isStepped = false;
         }
 
+        /**
+         * The method preparing for the step
+         * take the first element of the input and give it to the calculating method
+         */
+
         public void step()
         {
             Char curChar = this.remWord.First();
             this.calculateNextState(curChar);
         }
 
+        /**
+         * 
+         * Calculate the next state of the stateMachine, if the Next is null -> invalid input state 
+         */
         protected abstract void calculateNextState(Char curChar);
     }
 }
