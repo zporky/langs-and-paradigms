@@ -54,11 +54,37 @@ Haskell verzió
 Konklúzió
 ---------
     Perlben megírva közel 300 sor a program, dokumentáció (az nem is készült el, csak a helye van meg)
-    és teszt modul nélkül, míg Haskellben megírva ugyanez 140 sor. Időben is kevesebb ideig tartott a
-    Haskell változatot megírni, még úgy is, hogy nem vagyok gyakorlott Haskell programozó. A Haskell
-    verzió kommentek nélkül is olvasható és áttekinthető, míg a perl változatról ez nem mondható el.
+    és teszt program nélkül, míg Haskellben megírva ugyanez 140 sor. Időben is kevesebb ideig tartott a
+    Haskell változatot megírni, még úgy is, hogy nem vagyok gyakorlott Haskell programozó. Bár itt azért
+    az már könnyebbség volt, hogy az algoritmuson már nem kellett agyalni, csak a kódolást kellett megoldani.
+    A Haskell verzió kommentek nélkül is olvasható és áttekinthető, míg a perl változatról ez nem mondható el.
     A karakter és a feldolgozó függvény összerendelését perl-ben is meg lehetett volna csinálni úgy, hogy
     a feldolgozó eljárásokra mutató pointereket teszem a tömbbe, de akkor ott ez nem jutott eszembe.
     Illetve Perlben és C++-ban ez rendszerint veszélyes is, ha többen írnak egy programot, illetve
     nehezebb olvasni a kódot is. Talán ezért nem gondoltam erre akkor. :-)
     
+Összehasonlítás
+----------------
+                    | Perl           | Haskell
+    ----------------+----------------+----------------
+     Kódsorok száma | 308 + 239      | 141
+     prg + tesz prg |                |
+    ----------------+----------------+----------------
+     karakterek     |                |
+     száma szóközök | 3547 + 5361    | 3233
+     nélkül         |                |
+    ----------------+----------------+----------------
+     Mi okozott     | Tesztesetek    | Hibakeresés,
+     nehézséget?    | megírása +     | debug infók
+                    | Javítások,     | kiíratása.
+                    | sokat kellett  |
+                    | gépelni.       |
+    ----------------+----------------+----------------
+     Mi volt        | A szintaktikán | Nem kellett
+     könnyű         | nem kellett    | tesztprogramot 
+                    | gondolkodni.   | írni.
+                    | Debuggolni     | Könnyen érthető
+                    | egyszerű.      | és olvasható a
+                    |                | forráskód
+    ----------------+----------------+----------------
+
