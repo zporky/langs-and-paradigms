@@ -1,0 +1,10 @@
+﻿OK 1
+OK -3.14
+OK 0
+OK 0.1
+OK 0.1
+OK 1
+FAIL
+FAIL
+FAIL
+FAIL

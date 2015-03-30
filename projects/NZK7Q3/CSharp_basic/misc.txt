@@ -1,0 +1,12 @@
+﻿Viszonylag hamar kiötlöttem a megoldást, sokat nem gondolkoztam rajta. Nem biztos, hogy a "legeffektívebb", de számomra átlátható és érthető is.
+
+
+Használat:
+Windows > cmd (Console)
+
+Használat:
+>ProgrammingLanguagesAndParadigms2Task1.exe filepath
+filepath= A beolvasandó fájl neve.
+
+pl:
+>ProgrammingLanguagesAndParadigms2Task1.exe ./Examples/Example1.txt
