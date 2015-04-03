@@ -1,11 +1,15 @@
 Erlang:
-Rekurzív függvényhívással valósítom meg az automatát.
-Egy függvény egy szabálynak felel meg.
-A bemeneti stringet egy listával ábrázolom, melybol az elso elemet a szabályalkalmazás után elhagyom, a következö függvényt a lista végével hivom. 
-Egy ilyen automatát funkcionális nyelvekben viszonylag könnyen meg lehet valósítani.
-Nehézséget az elso szabály alkalmazása okozta, hiszen az elso szabálytól függ, hogy a lista elso karakterét is kiírjuk-e elfogadás esetén. Emiatt az S függvény által visszaadott listát külön elmentem egy változóba.
+
+RekurzÃ­v fÃ¼ggvÃ©nyhÃ­vÃ¡ssal valÃ³sÃ­tom meg az automatÃ¡t.
+Egy fÃ¼ggvÃ©ny egy szabÃ¡lynak felel meg.
+A bemeneti stringet egy listÃ¡val Ã¡brÃ¡zolom, melybol az elsÅ‘ elemet a soron kÃ¶vetkezÅ‘ szabÃ¡ly alkalmazÃ¡sa utÃ¡n elhagyom. A kÃ¶vetkezÃ¶ fÃ¼ggvÃ©nyt a hÃ¡tralevÅ‘ listÃ¡val hÃ­vom.
+FunkcionÃ¡lis nyelvekben viszonylag kÃ¶nnyen meg lehet valÃ³sÃ­tani ezt az automatÃ¡t.
+NehÃ©zsÃ©get az elsÅ‘ szabÃ¡ly alkalmazÃ¡sa okozotott, hiszen ettÅ‘l fÃ¼gg, hogy a lista elsÅ‘ karakterÃ©t is kiÃ­rjuk-e elfogadÃ¡s utÃ¡n. Emiatt az S fÃ¼ggvÃ©ny Ã¡ltal visszaadott listÃ¡t egy vÃ¡ltozÃ³ba mentettem el.
 
 Java (kezdo):
-Legfobb nehézséget az okozta, hogy a közelmúltban inkább funkcionális nyelveket használtam és az objektumorientált szemlélet háttérbe szorult. 
-A BSc elso félévében tanultak segitségével egy felsoroló felhasználásával implementáltam a string olvasását. Az automatát egy osztály valósítja meg, mely a felsoroló osztályt használva lekérdezheti a bemenet következo elemét.
-A program a bemenet minden karakterére alkalmazza a soron következo szabályt. A szabályok itt helyes input esetén megadják a következo alkalmazandó szabályt.
+
+LegfÅ‘bb nehÃ©zsÃ©get az okozta, hogy a kÃ¶zelmÃºltban inkÃ¡bb funkcionÃ¡lis nyelveket hasznÃ¡ltam Ã©s az objektumorientÃ¡lt szemlÃ©let hÃ¡ttÃ©rbe szorult. 
+A BSc elsÅ‘ fÃ©lÃ©vÃ©ben tanultak segitsÃ©gÃ©vel egy felsorolÃ³ felhasznÃ¡lÃ¡sÃ¡val implementÃ¡ltam a string olvasÃ¡sÃ¡t. 
+Az automatÃ¡t egy osztÃ¡ly valÃ³sÃ­tja meg, mely a felsorolÃ³t hasznÃ¡lva olvassa vÃ©gig a stringet.
+Egy enum tÃ­pust hoztam lÃ©tre a szabÃ¡lyok felsorolÃ¡sÃ¡ra, egy vÃ¡ltozÃ³ban tÃ¡rolom el a soron kÃ¶vetkezÅ‘ szabÃ¡lyt.
+Egy szabÃ¡ly hasznÃ¡latÃ¡nak egy fÃ¼ggvÃ©ny felel meg, amely megvizsgÃ¡lja az aktuÃ¡lis karaktert Ã©s megadja a kÃ¶vetkezÅ‘ szabÃ¡lyt. Amennyiben nem hasznÃ¡lhatÃ³ a szabÃ¡ly, hibÃ¡t dob.
