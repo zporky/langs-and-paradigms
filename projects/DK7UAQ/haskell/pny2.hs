@@ -1,5 +1,6 @@
 
 import Data.List
+import System.IO (isEOF)
 
 --for float parsing
 type Parser = String -> State -> String -> String	-- <parsed before> <current state> <parsed terminal> <parsed float part> -> <parse result>
@@ -180,5 +181,13 @@ test4 = case m3 of
 		
 test5 = print (isAccepted m5)
 -}
+
+
+readLoop = do 	done <- isEOF
+		if done
+		then putStrLn ""
+		else do input <- getLine
+			putStrLn (runFloatParser input)
+			readLoop
 		
-main = test
+main = readLoop
