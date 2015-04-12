@@ -22,6 +22,11 @@ isZ :: Char -> Bool
 isZ '0' = True
 isZ _ = False
 
+isE :: Char -> Bool
+isE 'e' = True
+isE 'E' = True
+isE _ = False
+
 isD :: Char -> Bool
 isD c = (ord c) >= 49 && (ord c) <= 57
 
@@ -32,16 +37,28 @@ state_T1_3_5 (_, "FAIL") = "FAIL"
 state_T1_3_5 ("", o) = o -- Elfogado allapot
 state_T1_3_5 ((i:is), o) = if (isD i || isZ i)
     then state_T1_3_5 (is, (o ++ [i]))
+	else if (isE i)
+		then state_I1 (is, (o ++ [i]))
     else "FAIL"
 
 -- STATE I0
 
-state_I :: Context -> String
-state_I ((i:is), o) = if (isD i || isZ i)
+state_I0 :: Context -> String
+state_I0 ((i:is), o) = if (isD i || isZ i)
     then state_T1_3_5 (is, (o ++ [i]))
     else "FAIL"
-state_I (_, _) = "FAIL" -- Nem elfogado allapot & FAIL input
+state_I0 (_, _) = "FAIL" -- Nem elfogado allapot & FAIL input
 
+-- STATE I1 (új állapot, amely az E karakter utáni állapotot reprezentálja)
+
+state_I1 :: Context -> String
+state_I1 ((i:is), o) = if (isS i)
+	then state_I0 (is, (o ++ [i]))
+	else if (isD i)
+		then state_T1_3_5 (is, o ++ [i])
+	else "FAIL"
+state_I1 (_, _) = "FAIL"
+	
 -- STATE T2
 
 state_T2 :: Context -> String
@@ -51,6 +68,8 @@ state_T2 ((i:is), o) = if (isP i)
     then if (length is) == 0
         then o ++ [i] ++ ".0"
         else state_T1_3_5 (is, (o ++ [i]))
+	else if (isE i) 
+		then state_I1 (is, (o ++ [i]))
     else "FAIL"
 
 -- STATE T4
@@ -63,14 +82,16 @@ state_T4 ((i:is), o) = if (isP i)
         else state_T1_3_5 (is, (o ++ [i]))
     else if (isD i || isZ i)
         then state_T4 (is, (o ++ [i]))
-        else "FAIL"
+	else if (isE i)
+		then state_I1 (is, (o ++ [i]))
+    else "FAIL"
 state_T4 ("", o) = o -- Elfogado allapot
 
 -- STATE S'
 
 state_S2 :: Context -> String
 state_S2 ((i:is), o) = if (isP i)
-    then state_I (is, (o ++ "0" ++ [i]))
+    then state_I0 (is, (o ++ "0" ++ [i]))
     else if (isZ i)
         then state_T2 (is, (o ++ [i]))
         else if (isD i)
