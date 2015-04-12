@@ -44,7 +44,7 @@ object ProductionRules {
       }
       case ILLEGAL_STATE_1 => symbol match {
         case SIGN => RuleResult(Some(ILLEGAL_STATE_0))
-        case DIGIT => RuleResult(Some(ILLEGAL_STATE_0), false)
+        case DIGIT => RuleResult(Some(LEGAL_STATE_1))
         case _ => FAIL
       }
       case LEGAL_STATE_1 => symbol match {
