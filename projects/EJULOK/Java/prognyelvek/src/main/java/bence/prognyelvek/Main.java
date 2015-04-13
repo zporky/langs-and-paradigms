@@ -1,17 +1,19 @@
 package bence.prognyelvek;
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(final String[] args) {
         final StateMachineRunner runner = new StateMachineRunner(StateMachineBuilder.build());
-        String line;
+        String input, result;
 
-        do {
-            line = System.console().readLine();
-
-            if (line.length() != 0) {
-                System.out.println(runner.process(line));
+        try(Scanner sc = new Scanner(System.in)) {
+            while(sc.hasNext()){
+                input = sc.nextLine();
+                result = runner.process(input);
+                System.out.println(result);
             }
-        } while (line.length() != 0);
+        }
     }
 }
