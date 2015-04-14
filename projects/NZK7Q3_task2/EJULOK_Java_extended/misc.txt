@@ -1,0 +1,4 @@
+Gondolatok:
+	-Kicsit szerintem túl általánosra lett megírva, és körülbelül az összes fájlt át kellett néznem, hogy biztos legyek nem kell e átírnom még valamit.
+	-Ennek ellenére, összesen egyetlen fájlt kellett módosítani, viszonylag kevés sorral
+	-A mûködést nem próbáltam megérteni - az említett túlzott általánosítás miatt - ezért csak kerestem a forrásfájlokban az állapotokat és átmeneteket leíró részeket.
