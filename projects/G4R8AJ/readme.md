@@ -45,3 +45,9 @@
 		-A főbb különbségek a két implementáció között, hogy itt az állapot tárolja a maradék inputot, a jelenleg összeakkumulált értéket és a következő állapotot
 		-Próbáltam nem egy-az-egy ben a c++-t portolni, hanem egy implementációs alternatívát adni a c++-osra a C# nyelv elemeit felhasználva
 		-Kevesebb ellenőrzés szükséges,mint a c++-os verzióban, így a forrásfájlok is rövidebbek
+		
+	## Módosítási Tapasztalatok
+		-Meglepő, de ezt könnyebb volt átírni,mint a C++-os verziót( valószinűleg azért, mert itt az állapotok kezelik a jelenlegi értéket is)
+		-Csak két Osztályt kellett módosítani, azokat amelyekhez az állapot kapcsolódott és a három új állapotot felvenni
+		-A rövidebb forrásfájlok miatt kevesebb volt a hibaszázalék is.
+		-Itt is fenn áll a túl-nagy állapotgép okozta osztály-hierarchia növekedés.
