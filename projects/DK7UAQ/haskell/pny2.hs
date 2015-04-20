@@ -3,7 +3,7 @@ import Data.List
 import System.IO (isEOF)
 
 --for float parsing
-type Parser = String -> State -> String -> String	-- <parsed before> <current state> <parsed terminal> <parsed float part> -> <parse result>
+type Parser = String -> State -> String -> String	-- <parser result before> <origin state> <parsed terminal> -> <parser result after>
 
 --for recognizing
 data State = State String Bool
@@ -68,22 +68,24 @@ isAccepted :: FSM -> Bool
 isAccepted (FSM (State stID accepted) input output) = (input == "" && accepted)
 
 --TERMINALS
-tS, tP, tZ, tD :: Terminals
+tS, tP, tZ, tD, tE :: Terminals
 tS = ["+","-"]
 tP = ["."]
 tZ = ["0"]
 tD = ["1","2","3","4","5","6","7","8","9"]
+tE = ["e","E"]
 
 --STATES
-stS, stS2, stI0, stT1, stT2, stT3, stT4, stT5 :: State
+stS, stS2, stI0, stT135, stT2, stT4, stI1, stT6, stI2 :: State
 stS = State "S" False
 stS2 = State "S2" False
 stI0 = State "I0" False
-stT1 = State "T1" True
+stT135 = State "T135" True
 stT2 = State "T2" True
-stT3 = State "T3" True
 stT4 = State "T4" True
-stT5 = State "T5" True
+stI1 = State "I1" False
+stT6 = State "T6" True
+stI2 = State "I2" False
 
 --parsing output
 containsAnyTerminal :: String -> Terminals -> Bool
@@ -94,33 +96,41 @@ containsAnyTerminal str (x:xs)
 containsAnyTerminal str [] = False
 
 floatParser :: Parser
+floatParser prefix st symbol
+		| st == stI1 && (last prefix == 'e') && (symbol == "+") = prefix ++ "+"
+		| st == stI1 && (last prefix == 'e') && (symbol /= "-") = prefix ++ "+" ++ symbol
 floatParser prefix _ "+" = prefix
 floatParser prefix _ "."
-			| not (containsAnyTerminal prefix (tZ ++ tD)) = prefix ++ "0."
-			| otherwise = prefix ++ "."
-			
+		| not (containsAnyTerminal prefix (tZ ++ tD)) = prefix ++ "0."
+		| otherwise = prefix ++ "."
+floatParser prefix st "E" = floatParser prefix st "e"
+floatParser prefix _ "e"
+		| last prefix == '.' = prefix ++ "0e"
+		| not (containsAnyTerminal prefix tP) = prefix ++ ".0e"
+		| otherwise = prefix ++ "e"
 floatParser prefix st symbol = prefix ++ symbol
 
 finalizeParsed :: String -> String
 finalizeParsed "0" = "0"
 finalizeParsed str
 		| last str == '.' = str ++ "0"
-		| not (containsAnyTerminal str tP) = str ++ ".0"
+		| not (containsAnyTerminal str (tE ++ tP)) = str ++ ".0"
 		| otherwise = str
 
 --RULES
-r1, r2, r3, r4, r5, r6, r7, r8 :: Rule
+r1, r2, r3, r4, r5, r6, r7, r8, r9 :: Rule
 r1 = Rule stS [(RHS tS stS2),(RHS tP stI0),(RHS tZ stT2),(RHS tD stT4)]
 r2 = Rule stS2 [(RHS tP stI0),(RHS tZ stT2),(RHS tD stT4)]
-r3 = Rule stI0 [(RHS tD stT1)]
-r4 = Rule stT1 [(RHS tD stT1)]
-r5 = Rule stT2 [(RHS tP stT3)]
-r6 = Rule stT3 [(RHS tD stT3)]
-r7 = Rule stT4 [(RHS tD stT4),(RHS tP stT5)]
-r8 = Rule stT5 [(RHS tD stT5)]
+r3 = Rule stI0 [(RHS tD stT135)]
+r4 = Rule stT135 [(RHS tD stT135),(RHS tE stI1)]
+r5 = Rule stT2 [(RHS tP stT135),(RHS tE stI1)]
+r6 = Rule stT4 [(RHS tD stT4),(RHS tP stT135),(RHS tE stI1)]
+r7 = Rule stI1 [(RHS tS stI2),(RHS tD stT6)]
+r8 = Rule stT6 [(RHS tD stT6),(RHS tZ stT6)]
+r9 = Rule stI2 [(RHS tD stT6)]
 
 rules :: [Rule]
-rules = [r1,r2,r3,r4,r5,r6,r7,r8]
+rules = [r1,r2,r3,r4,r5,r6,r7,r8,r9]
 
 -- FSM initialization
 startingState :: State
@@ -160,9 +170,23 @@ test = print ([runFloatParser "1" == "OK 1.0",
 		runFloatParser "+ 1" == "FAIL",
 		runFloatParser "+" == "FAIL",
 		runFloatParser "-" == "FAIL",
-		runFloatParser "3.14e-2" == "FAIL",
 		runFloatParser "a" == "FAIL",
-		runFloatParser "abc2" == "FAIL"])
+		runFloatParser "abc2" == "FAIL",
+		--bovites
+		runFloatParser "-3.14e2" == "OK -3.14e+2",
+		runFloatParser "1.12e+1" == "OK 1.12e+1",
+		runFloatParser "+0.1E10" == "OK 0.1e+10",
+		runFloatParser ".1E-4" == "OK 0.1e-4",
+		runFloatParser "1.E4"== "OK 1.0e+4",
+		runFloatParser "13e4" == "OK 13.0e+4",
+		runFloatParser "1e" == "FAIL",
+		runFloatParser "+1.235E0" == "FAIL",
+		runFloatParser "1e-0" == "FAIL",
+		runFloatParser "+1.235E+" == "FAIL",
+		runFloatParser "2+1" == "FAIL",
+		runFloatParser "2 e-4" == "FAIL",
+		runFloatParser "2e-04" == "FAIL"])
+		
 {-
 test2 = case (tryMatchingRule r1 (initFSM "-1.235") floatParser) of
 		Just (FSM (State stID stAcc) rem out) -> print ("Just " ++ stID ++ " " ++ rem ++ " " ++ out)
