@@ -1,17 +1,16 @@
-#include "IntegralState.h"
+#include "ExponentialIntegral.h"
 
-IntegralState::IntegralState()
+ExponentialIntegral::ExponentialIntegral()
 {
     this->isTerminal = true;
 }
 
-AbstractState::State IntegralState::next(std::string str,std::string curVal)
+AbstractState::State ExponentialIntegral::next(std::string str,std::string curVal)
 {
     State ret;
     if(str[0] == '.')
     {
-        FractureState nextState;
-        ret.nextState = new FractureState();
+        ret.nextState = new ExponentialFractureState();
         ret.currentVal = curVal + ".";
         ret.currentRemaining = str.erase(0,1);
     }
@@ -21,17 +20,9 @@ AbstractState::State IntegralState::next(std::string str,std::string curVal)
         ret.currentVal = curVal + str[0];
         ret.currentRemaining = str.erase(0,1);
     }
-    else if( 'e' == tolower(str[0]))
-    {
-        ret.nextState = new ExponentialState();
-        ret.currentVal = curVal + str[0];
-        ret.currentRemaining = str.erase(0,1);
-    }
     else
     {
         ret.nextState = NULL;
     }
     return ret;
 }
-
-

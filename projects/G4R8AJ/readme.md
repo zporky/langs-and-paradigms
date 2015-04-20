@@ -27,7 +27,12 @@
 		-Mivel a kimenetet nem tudtam pontosan, így az állapotgépet fentről lefelé építettem fel, minden réteget letesztelve kézzel
 		-Egy-két ponton még vannak optimalizálható kódrészletek, de azokat az eredeti állapotukban hagytam a jobb érthetőség miatt 
 		-A megoldás legnagyobb hibája talán az, hogy nem csak az objektum megszünésekor szabadítunk fel memóriát, ami ugyan optimálisabb megoldást ad,de stabilitási szempontból komoly veszélyt jelenthet
-		
+	
+	## Módosítási Tapasztalatok
+		-Gyorsan lehetett módosítani az új specifikációnak megfelelőre
+		-Összesen három osztály létrehozását és három meglévő osztály módosítását igényelte, ezek is minimális módosítások voltak
+		-A struktúra mérete miatt viszont egy nagyobb módosítás könnyen elburjánzó osztályszerkezethez vezethez( Nagyon sok, nem összevonható állapot esete), amelyet csak egy komolyabb refaktorálással lehetne csökkenteni( feltétles átmenetek bevezetése)
+		-A módosítás menete is fentről lefelé alapú volt
 # C#
 
 	## Futtatás
