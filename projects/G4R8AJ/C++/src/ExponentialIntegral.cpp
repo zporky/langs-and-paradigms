@@ -8,13 +8,7 @@ ExponentialIntegral::ExponentialIntegral()
 AbstractState::State ExponentialIntegral::next(std::string str,std::string curVal)
 {
     State ret;
-    if(str[0] == '.')
-    {
-        ret.nextState = new ExponentialFractureState();
-        ret.currentVal = curVal + ".";
-        ret.currentRemaining = str.erase(0,1);
-    }
-    else if( isdigit(str[0]) )
+    if( isdigit(str[0]) )
     {
         ret.nextState = this;
         ret.currentVal = curVal + str[0];

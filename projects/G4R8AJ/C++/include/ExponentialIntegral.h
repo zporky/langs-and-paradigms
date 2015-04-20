@@ -1,5 +1,4 @@
 #include "AbstractState.h"
-#include "ExponentialFractureState.h"
 
 #ifndef EXPONENTIALINTEGRAL_H
 #define EXPONENTIALINTEGRAL_H

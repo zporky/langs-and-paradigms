@@ -16,7 +16,6 @@ namespace FloatEnums {
 	const std::string T5 = "T5"; //123.123
 	const std::string T6 = "T6"; //123Ey
 	const std::string T7 = "T7"; //123E123
-	const std::string T8 = "T8"; //123E123.123
 	
 	//valid events
 	//z (0), d (1..9), p (.), s (+, -)

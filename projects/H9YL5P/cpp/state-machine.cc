@@ -108,16 +108,7 @@ int StateMachine::nextState(std::string event, std::string symbol) {
 		appendNumber(symbol);
 		setState(FloatEnums::T7);
 		return 0;
-	} else if((getState() == FloatEnums::T7)
-				&& event == FloatEnums::point){
-		appendNumber(symbol);
-		setState(FloatEnums::T8);
-		return 0;
 	} else if(getState() == FloatEnums::T7
-				&& event == FloatEnums::decimal){
-		appendNumber(symbol);
-		return 0;
-	} else if(getState() == FloatEnums::T8
 				&& event == FloatEnums::decimal){
 		appendNumber(symbol);
 		return 0;

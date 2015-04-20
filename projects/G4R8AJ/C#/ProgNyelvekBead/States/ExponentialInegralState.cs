@@ -18,13 +18,6 @@ namespace ProgNyelvekBead.States
                 this.curVal = this.curVal + curChar.ToString();
                 this.followingState = this;
             }
-            else if (curChar == '.')
-            {
-
-                this.remWord = this.remWord.Remove(0, 1);
-                this.curVal = this.curVal + ".";
-                this.followingState = new ExponentialFractureState(remWord, curVal);
-            }
             else
             {
                 this.followingState = null;
