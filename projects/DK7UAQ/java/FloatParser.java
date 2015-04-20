@@ -9,8 +9,11 @@ public class FloatParser extends FSM {
     private boolean signIsPositive;
     private StringBuilder integer;
     private StringBuilder fraction;
+    private boolean exponentSignIsPositive;
+    private StringBuilder exponent;
     
     private boolean afterDecimalPoint;
+    private boolean afterE;
 
     public FloatParser(State startingState) {
         super(startingState);
@@ -19,9 +22,12 @@ public class FloatParser extends FSM {
     @Override
     public void runOnInput(String input) {
         afterDecimalPoint = false;
+        afterE = false;
         signIsPositive = true;
+        exponentSignIsPositive = true;
         integer = new StringBuilder();
         fraction = new StringBuilder();
+        exponent = new StringBuilder();
         super.runOnInput(input);
     }
 
@@ -37,11 +43,12 @@ public class FloatParser extends FSM {
     protected void addTerminalToFloat(String terminal) {
         if (terminal == null) {return;}
         switch (terminal) {
-            case "+":
-                signIsPositive = true;
-                break;
             case "-":
-                signIsPositive = false;
+                if (afterE) {
+                    exponentSignIsPositive = false;
+                } else {
+                    signIsPositive = false;
+                }
                 break;
             case ".":
                 afterDecimalPoint = true;
@@ -50,12 +57,16 @@ public class FloatParser extends FSM {
             case "3": case "4": case "5":
             case "6": case "7": case "8":
             case "9":
-                if (afterDecimalPoint) {
+                if (afterE) {
+                    exponent.append(terminal.charAt(0));
+                } else if (afterDecimalPoint) {
                     fraction.append(terminal.charAt(0));
                 } else {
                     integer.append(terminal.charAt(0));
                 }
                 break;
+            case "e": case "E":
+                afterE = true;
         }
     }
     public String createFloat() {
@@ -63,7 +74,7 @@ public class FloatParser extends FSM {
             return "";
         }
         //special case 0 -> 0 (intentional?)
-        if (integer.toString().equals("0") && fraction.length() == 0) {
+        if (integer.toString().equals("0") && fraction.length() == 0 && !afterE) {
             return "0";
         }
         //
@@ -80,6 +91,15 @@ public class FloatParser extends FSM {
             fraction.append("0");
         }
         sb.append(fraction.toString());
+        if (afterE) {
+            sb.append("e");
+            if (exponentSignIsPositive) {
+                sb.append("+");
+            } else {
+                sb.append("-");
+            }
+            sb.append(exponent.toString());
+        }
         return sb.toString();
     }
 
