@@ -20,7 +20,11 @@ use constant {
 	TERM_P    => 10,
 	TERM_Z    => 11,
 	TERM_E    => 12,
-	TERM_D    => 13
+	TERM_D    => 13,
+	TERM_EE   => 14,
+	STATE_I1  => 15,
+	STATE_I2  => 16,
+	STATE_T6  => 17
 };
 
 my $testName = "";
@@ -69,9 +73,42 @@ ok($sm->getState() == STATE_S1,
 	"$testName STATE_S0 --> STATE_S1" );
 $sm->action_s();
 ok( $sm->getState() == STATE_ERR, "$testName STATE_S1 --> STATE_ERR" );
+my $c = "+";
+$sm->reset();
+$sm->{'state'} = STATE_I1;
+$sm->action_s($c);
+ok( $sm->getState() == STATE_I2, "$testName STATE_I1 --> STATE_I2" );
+$sm->reset();
+$sm->{'state'} = STATE_T1;
+$sm->action_s($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_T1 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_T2;
+$sm->action_s($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_T2 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_T3;
+$sm->action_p($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_T3 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_T4;
+$sm->action_s($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_T4 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_T5;
+$sm->action_s($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_T5 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_T6;
+$sm->action_s($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_T6 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_I2;
+$sm->action_s($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_I2 --> STATE_ERR" );
 
 $testName = "StateMachine->action_p()";
-my $c = ".";
+$c = ".";
 $sm->reset();
 $sm->action_p($c);
 ok( $sm->getState() == STATE_ERR, "$testName STATE_S0 --> STATE_ERR" );
@@ -102,6 +139,26 @@ $sm->{'state'} = STATE_T5;
 $sm->{'output'} = "12";
 $sm->action_p($c);
 ok( $sm->getState() == STATE_ERR, "$testName STATE_T5 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_T6;
+$sm->{'output'} = "12";
+$sm->action_p($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_T6 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_I1;
+$sm->{'output'} = "12";
+$sm->action_p($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_I1 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_I2;
+$sm->{'output'} = "12";
+$sm->action_p($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_I2 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_T6;
+$sm->{'output'} = "12";
+$sm->action_p($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_T6 --> STATE_ERR" );
 
 
 $testName = "StateMachine->action_z()";
@@ -116,11 +173,11 @@ ok( $sm->getState() == STATE_T2 && "$c" eq $sm->getOutput() , "$testName STATE_S
 $sm->reset();
 $sm->{'state'} = STATE_I0;
 $sm->action_z($c);
-ok( $sm->getState() == STATE_ERR , "$testName STATE_I0 --> STATE_ERR" );
+ok( $sm->getState() == STATE_T1 , "$testName STATE_I0 --> STATE_T1" );
 $sm->reset();
 $sm->{'state'} = STATE_T1;
 $sm->action_z($c);
-ok( $sm->getState() == STATE_ERR , "$testName STATE_T1 --> STATE_ERR" );
+ok( $sm->getState() == STATE_T1 , "$testName STATE_T1 --> STATE_T1" );
 $sm->reset();
 $sm->{'state'} = STATE_T2;
 $sm->action_z($c);
@@ -128,15 +185,27 @@ ok( $sm->getState() == STATE_ERR , "$testName STATE_T2 --> STATE_ERR" );
 $sm->reset();
 $sm->{'state'} = STATE_T3;
 $sm->action_z($c);
-ok( $sm->getState() == STATE_ERR , "$testName STATE_T3 --> STATE_ERR" );
+ok( $sm->getState() == STATE_T3 , "$testName STATE_T3 --> STATE_T3" );
 $sm->reset();
 $sm->{'state'} = STATE_T4;
 $sm->action_z($c);
-ok( $sm->getState() == STATE_ERR , "$testName STATE_T4 --> STATE_ERR" );
+ok( $sm->getState() == STATE_T4 , "$testName STATE_T4 --> STATE_T4" );
 $sm->reset();
 $sm->{'state'} = STATE_T5;
 $sm->action_z($c);
-ok( $sm->getState() == STATE_ERR , "$testName STATE_T5 --> STATE_ERR" );
+ok( $sm->getState() == STATE_T5 , "$testName STATE_T5 --> STATE_T5" );
+$sm->reset();
+$sm->{'state'} = STATE_T6;
+$sm->action_z($c);
+ok( $sm->getState() == STATE_T6 , "$testName STATE_T6 --> STATE_T6" );
+$sm->reset();
+$sm->{'state'} = STATE_I1;
+$sm->action_p($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_I1 --> STATE_ERR" );
+$sm->reset();
+$sm->{'state'} = STATE_I2;
+$sm->action_p($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_I2 --> STATE_ERR" );
 
 
 $testName = "StateMachine->action_d()";
@@ -178,6 +247,18 @@ $sm->{'state'} = STATE_T5;
 $sm->{'output'} = "11.4";
 $sm->action_d($c);
 ok( $sm->getState() == STATE_T5 && "11.4$c" eq $sm->getOutput(), "$testName STATE_T5 --> STATE_T5" );
+$sm->reset();
+$sm->{'state'} = STATE_T6;
+$sm->action_d($c);
+ok( $sm->getState() == STATE_T6 , "$testName STATE_T6 --> STATE_T6" );
+$sm->reset();
+$sm->{'state'} = STATE_I2;
+$sm->action_d($c);
+ok( $sm->getState() == STATE_T6 , "$testName STATE_I2 --> STATE_T6" );
+$sm->reset();
+$sm->{'state'} = STATE_I1;
+$sm->action_d($c);
+ok( $sm->getState() == STATE_ERR, "$testName STATE_I1 --> STATE_ERR" );
 
 $c = "1";
 $testName = "StateMachine->do($c)";
@@ -187,7 +268,7 @@ is($sm->do($c), "1.0", $testName);
 $c = "-3.14";
 $testName = "StateMachine->do($c)";
 $sm->reset();
-is($sm->do($c), "3.14", $testName);
+is($sm->do($c), "-3.14", $testName);
 
 $c = "0";
 $testName = "StateMachine->do($c)";
@@ -198,6 +279,11 @@ $c = "+0.1";
 $testName = "StateMachine->do($c)";
 $sm->reset();
 is($sm->do($c), "0.1", $testName);
+
+$c = "-0.1";
+$testName = "StateMachine->do($c)";
+$sm->reset();
+is($sm->do($c), "-0.1", $testName);
 
 $c = ".1";
 $testName = "StateMachine->do($c)";
@@ -232,7 +318,17 @@ is($sm->do($c), "FAIL", $testName);
 $c = "3.14e-2";
 $testName = "StateMachine->do($c)";
 $sm->reset();
-is($sm->do($c), "FAIL", $testName);
+is($sm->do($c), $c, $testName);
+
+$c = "+3.14e-2";
+$testName = "StateMachine->do($c)";
+$sm->reset();
+is($sm->do($c), "3.14e-2", $testName);
+
+$c = "-3.14e+2";
+$testName = "StateMachine->do($c)";
+$sm->reset();
+is($sm->do($c), "-3.14e+2", $testName);
 
 
 ### End of test ###
