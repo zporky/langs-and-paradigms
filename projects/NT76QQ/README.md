@@ -1,3 +1,27 @@
+===============================
+= TASK2                       =
+===============================
+
+A feladat specifikációját (állapotgépet) javítottam. Ehhez készítettem egy kis grafikát is, ami az
+az új állapotgép állapotatit és átmeneteit mutatja be. (Floating_numbers_validation.gif)
+
+
+Saját Perl verzió
+-----------------
+A programot nagyon könnyű volt módosítani. Ami a legtöbb időt elvette, az az, hogy a tesztprogramot
+több helyen kellett módosítani, mint az eredeti programot, ugyanis az új állapotok és az új átmenetek
+új tesztesetekkel jártak.
+
+
+Saját Hasekll verzió
+--------------------
+
+
+
+
+===============================
+= TASK1                       =
+===============================
 A feadat megoldására a perl-t mint ismert nyelvet és a haskell-t választottam, amivel most ismerkedem.
 Azért is választottam a perl-t, mert régen sok webes alkalmazást és apró pici scripteket írtam benne,
 és úgy gondoltam, hogy Java változatból úgy is lesz egy csomó.
