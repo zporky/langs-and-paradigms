@@ -39,9 +39,7 @@ std::string StateMachine::processInput(std::string symbol) {
 		return FloatEnums::point;
 	} else if (symbol == "+" || symbol == "-") {
 		return FloatEnums::sign;
-	} else if(tolower(symbol[0]) == 'e'){
-		return FloatEnums::exponential;		
-	}else {
+	} else {
 		//unkown symbol...
 		return FloatEnums::unknown;
 	}
@@ -79,40 +77,11 @@ int StateMachine::nextState(std::string event, std::string symbol) {
 		         || getState() == FloatEnums::T3 
 		         || getState() == FloatEnums::T5
 		         || getState() == FloatEnums::T4)
-	           && event == FloatEnums::zero 
-			   && this->myNumber.length() > 0) {
+	           && event == FloatEnums::decimal) {
 		appendNumber(symbol);
 		return 0;
-	}else if((getState() == FloatEnums::T1 
-		         || getState() == FloatEnums::T3 
-		         || getState() == FloatEnums::T5
-		         || getState() == FloatEnums::T4)
-	           && event == FloatEnums::decimal){
-		appendNumber(symbol);
-		return 0;
-	} else if((getState() == FloatEnums::T1 
-				||getState() == FloatEnums::T3
-				|| getState() == FloatEnums::T4
-				|| getState() == FloatEnums::T5)
-				&& event == FloatEnums::exponential){
-		appendNumber(symbol);
-		setState(FloatEnums::T6);
-		return 0;
-	} else if(getState() == FloatEnums::T6
-				&& event == FloatEnums::sign){
-		appendNumber(symbol);
-		setState(FloatEnums::T7);
-		return 0;
-	} else if((getState() == FloatEnums::T6 )
-				&& event == FloatEnums::decimal ){
-		appendNumber(symbol);
-		setState(FloatEnums::T7);
-		return 0;
-	} else if(getState() == FloatEnums::T7
-				&& event == FloatEnums::decimal){
-		appendNumber(symbol);
-		return 0;
-	} else {
+	}
+	else {
 		//invalid state
 		std::cerr<<"Invalid state/event combination."<<std::endl;
 		return -1;

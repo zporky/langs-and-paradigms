@@ -52,12 +52,9 @@ bool StateMachine::run(std::string str)
     }
 
     /**
-        Case Full Integral(No fracture part and no exponential part, adding the .0 to the number)
+        Case Full Integral(No fracture part, adding the .0 to the number)
     */
-    if(nextState.currentVal.find('.') == nextState.currentVal.npos
-       && nextState.currentVal != "0"
-       && nextState.currentVal.find('e') == nextState.currentVal.npos
-       && nextState.currentVal.find('E') == nextState.currentVal.npos )
+    if(nextState.currentVal.find('.') == nextState.currentVal.npos && nextState.currentVal != "0")
     {
         nextState.currentVal = nextState.currentVal + ".0";
     }

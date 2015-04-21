@@ -19,10 +19,7 @@ namespace ProgrammingLanguagesAndParadigms2Task1.StateMachines
             T2,
             T3,
             T4,
-            T5,
-            T6,
-            T7,
-            T8
+            T5
         }
 
         private class S { }
@@ -33,9 +30,7 @@ namespace ProgrammingLanguagesAndParadigms2Task1.StateMachines
         private class T3 { }
         private class T4 { }
         private class T5 { }
-        private class T6 { }
-        private class T7 { }
-        private class T8 { }
+
         #endregion
 
         private static HashSet<Char> SIGNING
@@ -79,17 +74,6 @@ namespace ProgrammingLanguagesAndParadigms2Task1.StateMachines
                 return a;
             }
         }
-        private static HashSet<Char> EXPONENTIAL
-        {
-            get
-            {
-                HashSet<Char> a = new HashSet<Char>();
-                a.Add('e');
-                a.Add('E');
-                return a;
-            }
-        }
-
         private static HashSet<States> ENDS
         {
             get
@@ -188,7 +172,7 @@ namespace ProgrammingLanguagesAndParadigms2Task1.StateMachines
         {
             Char c = PreStep(ref inp);
 
-            if (DECIMAL.Contains(c) || ZERO.Contains(c))
+            if (DECIMAL.Contains(c))
             {
                 return c.ToString() + Step(new T1(), inp);
             }
@@ -207,13 +191,9 @@ namespace ProgrammingLanguagesAndParadigms2Task1.StateMachines
                 return "";
             }
 
-            if (DECIMAL.Contains(c) || ZERO.Contains(c))
+            if (DECIMAL.Contains(c))
             {
                 return c.ToString() + Step(new T1(), inp);
-            }
-            else if (EXPONENTIAL.Contains(c))
-            {
-                return c.ToString() + Step(new T6(), inp);
             }
 
             throw new CannotParseException();
@@ -231,7 +211,7 @@ namespace ProgrammingLanguagesAndParadigms2Task1.StateMachines
                 return "";
             }
 
-            if (POINT.Contains(c) || ZERO.Contains(c))
+            if (POINT.Contains(c))
             {
                 return c.ToString() + Step(new T3(), inp);
             }
@@ -251,7 +231,7 @@ namespace ProgrammingLanguagesAndParadigms2Task1.StateMachines
                 return "";
             }
 
-            if (DECIMAL.Contains(c) || ZERO.Contains(c))
+            if (DECIMAL.Contains(c))
             {
                 return c.ToString() + Step(new T3(), inp);
             }
@@ -277,11 +257,7 @@ namespace ProgrammingLanguagesAndParadigms2Task1.StateMachines
             }
             else if (POINT.Contains(c))
             {
-                return c.ToString() + Step(new T5(), inp);
-            }
-            else if( EXPONENTIAL.Contains(c))
-            {
-                return c.ToString() + Step(new T6(), inp);
+                return c.ToString() + Step(new T5(), inp); ;
             }
 
             throw new CannotParseException();
@@ -299,58 +275,10 @@ namespace ProgrammingLanguagesAndParadigms2Task1.StateMachines
                 return "";
             }
 
-            if (DECIMAL.Contains(c) || ZERO.Contains(c))
+            if (DECIMAL.Contains(c))
             {
                 _state = States.T5;
                 return c.ToString() + Step(new T5(), inp);
-            }
-            else if(EXPONENTIAL.Contains(c))
-            {
-                return c.ToString() + Step(new T6(),inp);
-            }
-
-            throw new CannotParseException();
-        }
-
-        private String Step(T6 s, String inp)
-        {
-            Char c;
-            try
-            {
-                c = PreStep(ref inp);
-            }
-            catch (EndOfStringException)
-            {
-                return "";
-            }
-
-            if(SIGNING.Contains(c))
-            {
-                return c.ToString() + Step(new T7(), inp);
-            }
-            else if (DECIMAL.Contains(c))
-            {
-                return c.ToString() + Step(new T7(), inp);
-            }
-
-            throw new CannotParseException();
-        }
-
-        private String Step(T7 s, String inp)
-        {
-            Char c;
-            try
-            {
-                c = PreStep(ref inp);
-            }
-            catch (EndOfStringException)
-            {
-                return "";
-            }
-
-            if(DECIMAL.Contains(c))
-            {
-                return c.ToString() + Step(new T7(), inp);
             }
 
             throw new CannotParseException();

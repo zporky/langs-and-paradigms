@@ -27,12 +27,7 @@
 		-Mivel a kimenetet nem tudtam pontosan, így az állapotgépet fentről lefelé építettem fel, minden réteget letesztelve kézzel
 		-Egy-két ponton még vannak optimalizálható kódrészletek, de azokat az eredeti állapotukban hagytam a jobb érthetőség miatt 
 		-A megoldás legnagyobb hibája talán az, hogy nem csak az objektum megszünésekor szabadítunk fel memóriát, ami ugyan optimálisabb megoldást ad,de stabilitási szempontból komoly veszélyt jelenthet
-	
-	## Módosítási Tapasztalatok
-		-Gyorsan lehetett módosítani az új specifikációnak megfelelőre
-		-Összesen három osztály létrehozását és három meglévő osztály módosítását igényelte, ezek is minimális módosítások voltak
-		-A struktúra mérete miatt viszont egy nagyobb módosítás könnyen elburjánzó osztályszerkezethez vezethez( Nagyon sok, nem összevonható állapot esete), amelyet csak egy komolyabb refaktorálással lehetne csökkenteni( feltétles átmenetek bevezetése)
-		-A módosítás menete is fentről lefelé alapú volt
+		
 # C#
 
 	## Futtatás
@@ -45,9 +40,3 @@
 		-A főbb különbségek a két implementáció között, hogy itt az állapot tárolja a maradék inputot, a jelenleg összeakkumulált értéket és a következő állapotot
 		-Próbáltam nem egy-az-egy ben a c++-t portolni, hanem egy implementációs alternatívát adni a c++-osra a C# nyelv elemeit felhasználva
 		-Kevesebb ellenőrzés szükséges,mint a c++-os verzióban, így a forrásfájlok is rövidebbek
-		
-	## Módosítási Tapasztalatok
-		-Meglepő, de ezt könnyebb volt átírni,mint a C++-os verziót( valószinűleg azért, mert itt az állapotok kezelik a jelenlegi értéket is)
-		-Csak két Osztályt kellett módosítani, azokat amelyekhez az állapot kapcsolódott és a három új állapotot felvenni
-		-A rövidebb forrásfájlok miatt kevesebb volt a hibaszázalék is.
-		-Itt is fenn áll a túl-nagy állapotgép okozta osztály-hierarchia növekedés.
