@@ -1,4 +1,6 @@
 #include "AbstractState.h"
+#include "ExponentialState.h"
+#include <cctype>
 
 #ifndef FRACTURESTATE_H
 #define FRACTURESTATE_H

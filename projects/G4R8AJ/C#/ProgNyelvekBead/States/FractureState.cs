@@ -18,6 +18,12 @@ namespace ProgNyelvekBead.States
                 this.curVal = this.curVal + curChar.ToString();
                 this.followingState = this;
             }
+            else if(Char.ToLower(curChar) == 'e')
+            {
+                this.remWord = this.remWord.Remove(0, 1);
+                this.curVal = this.curVal + curChar.ToString();
+                this.followingState = new ExponentialState(this.remWord,this.curVal);
+            }
             else
             {
                 this.followingState = null;

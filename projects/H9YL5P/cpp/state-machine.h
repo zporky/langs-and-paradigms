@@ -2,6 +2,7 @@
 #define _STATE_MACHINE_H_
 
 #include <string>
+#include <cctype>
 
 namespace FloatEnums {
 	//valid states
@@ -13,6 +14,8 @@ namespace FloatEnums {
 	const std::string T3 = "T3"; //0.123
 	const std::string T4 = "T4"; //123
 	const std::string T5 = "T5"; //123.123
+	const std::string T6 = "T6"; //123Ey
+	const std::string T7 = "T7"; //123E123
 	
 	//valid events
 	//z (0), d (1..9), p (.), s (+, -)
@@ -20,6 +23,7 @@ namespace FloatEnums {
 	const std::string decimal = "d";
 	const std::string point = "p";
 	const std::string sign = "s";
+	const std::string exponential = "e";
 	const std::string unknown = "u";
 }
 

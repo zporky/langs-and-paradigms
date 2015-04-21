@@ -24,7 +24,14 @@ int main()
 			//std::cout<<"Current state: "<<m1.getState()<<std::endl;
 		}
 		if (m1.getState().substr(0,1)=="T") {
-			std::cout<<"OK "<<m1.getNumber()<<std::endl;
+			if( m1.getState() == "T4")
+			{
+				std::cout<<"OK "<<m1.getNumber() << ".0" <<std::endl;
+			}
+			else
+			{
+				std::cout<<"OK "<<m1.getNumber()<<std::endl;
+			}
 		} else { std::cerr<<"FAIL"<<std::endl;}
 	} while(!std::cin.eof());
 	return 0;

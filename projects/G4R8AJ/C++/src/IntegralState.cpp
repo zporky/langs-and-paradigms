@@ -21,6 +21,12 @@ AbstractState::State IntegralState::next(std::string str,std::string curVal)
         ret.currentVal = curVal + str[0];
         ret.currentRemaining = str.erase(0,1);
     }
+    else if( 'e' == tolower(str[0]))
+    {
+        ret.nextState = new ExponentialState();
+        ret.currentVal = curVal + str[0];
+        ret.currentRemaining = str.erase(0,1);
+    }
     else
     {
         ret.nextState = NULL;
