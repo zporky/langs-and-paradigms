@@ -1,7 +1,5 @@
 #include "AbstractState.h"
 #include "FractureState.h"
-#include "ExponentialState.h"
-#include <cctype>
 
 #ifndef DIGITSTATE_H
 #define DIGITSTATE_H
