@@ -6,7 +6,7 @@ import pny2.fsm.Rule;
 import java.util.Scanner;
 
 /**
- * Pny2/hf2: finite state machine, extended version.
+ * Pny2/hf1: finite state machine.
  * @author Viktor Varga
  */
 public class Pny2 {
@@ -17,19 +17,16 @@ public class Pny2 {
     private static final String STATE_ID_S = "S";
     private static final String STATE_ID_S2 = "S'";
     private static final String STATE_ID_I0 = "I0";
-    private static final String STATE_ID_T135 = "T135";
+    private static final String STATE_ID_T1 = "T1";
     private static final String STATE_ID_T2 = "T2";
+    private static final String STATE_ID_T3 = "T3";
     private static final String STATE_ID_T4 = "T4";
-    private static final String STATE_ID_I1 = "I1";
-    private static final String STATE_ID_T6 = "T6";
-    private static final String STATE_ID_I2 = "I2";
+    private static final String STATE_ID_T5 = "T5";
     
     private static final String[] TERMINALS_S = new String[]{"+","-"};
     private static final String[] TERMINALS_P = new String[]{"."};
     private static final String[] TERMINALS_Z = new String[]{"0"};
     private static final String[] TERMINALS_D = new String[]{"1","2","3","4","5","6","7","8","9"};
-    
-    private static final String[] TERMINALS_E = new String[]{"e","E"};
     
     private static final FloatParser parser;
     private static final State STARTING_STATE;
@@ -44,20 +41,18 @@ public class Pny2 {
         //add states
         State state_s2 = new State(false, STATE_ID_S2);
         State state_i0 = new State(false, STATE_ID_I0);
-        State state_t135 = new State(true, STATE_ID_T135);
+        State state_t1 = new State(true, STATE_ID_T1);
         State state_t2 = new State(true, STATE_ID_T2);
+        State state_t3 = new State(true, STATE_ID_T3);
         State state_t4 = new State(true, STATE_ID_T4);
-        State state_i1 = new State(false, STATE_ID_I1);
-        State state_t6 = new State(true, STATE_ID_T6);
-        State state_i2 = new State(false, STATE_ID_I2);
+        State state_t5 = new State(true, STATE_ID_T5);
         parser.addState(state_s2);
         parser.addState(state_i0);
-        parser.addState(state_t135);
+        parser.addState(state_t1);
         parser.addState(state_t2);
+        parser.addState(state_t3);
         parser.addState(state_t4);
-        parser.addState(state_i1);
-        parser.addState(state_t6);
-        parser.addState(state_i2);
+        parser.addState(state_t5);
         //add rules
         Rule r1 = new Rule(STARTING_STATE);
         r1.addRHS(TERMINALS_P, state_i0); //automaton was slightly rearranged (to avoid epsilon)
@@ -69,25 +64,18 @@ public class Pny2 {
         r2.addRHS(TERMINALS_Z, state_t2);
         r2.addRHS(TERMINALS_D, state_t4);
         Rule r3 = new Rule(state_i0);
-        r3.addRHS(TERMINALS_D, state_t135);
-        Rule r4 = new Rule(state_t135);
-        r4.addRHS(TERMINALS_D, state_t135);
-        r4.addRHS(TERMINALS_E, state_i1);
+        r3.addRHS(TERMINALS_D, state_t1);
+        Rule r4 = new Rule(state_t1);
+        r4.addRHS(TERMINALS_D, state_t1);
         Rule r5 = new Rule(state_t2);
-        r5.addRHS(TERMINALS_P, state_t135);
-        r5.addRHS(TERMINALS_E, state_i1);
-        Rule r6 = new Rule(state_t4);
-        r6.addRHS(TERMINALS_D, state_t4);
-        r6.addRHS(TERMINALS_P, state_t135);
-        r6.addRHS(TERMINALS_E, state_i1);
-        Rule r7 = new Rule(state_i1);
-        r7.addRHS(TERMINALS_S, state_i2);
-        r7.addRHS(TERMINALS_D, state_t6);
-        Rule r8 = new Rule(state_t6);
-        r8.addRHS(TERMINALS_D, state_t6);
-        r8.addRHS(TERMINALS_Z, state_t6);
-        Rule r9 = new Rule(state_i2);
-        r9.addRHS(TERMINALS_D, state_t6);
+        r5.addRHS(TERMINALS_P, state_t3);
+        Rule r6 = new Rule(state_t3);
+        r6.addRHS(TERMINALS_D, state_t3);
+        Rule r7 = new Rule(state_t4);
+        r7.addRHS(TERMINALS_D, state_t4);
+        r7.addRHS(TERMINALS_P, state_t5);
+        Rule r8 = new Rule(state_t5);
+        r8.addRHS(TERMINALS_D, state_t5);
         parser.addRule(r1);
         parser.addRule(r2);
         parser.addRule(r3);
@@ -96,7 +84,6 @@ public class Pny2 {
         parser.addRule(r6);
         parser.addRule(r7);
         parser.addRule(r8);
-        parser.addRule(r9);
     }
 
     private static boolean test() {
@@ -117,22 +104,9 @@ public class Pny2 {
         result &= (runParser("+ 1").equals("FAIL"));
         result &= (runParser("+").equals("FAIL"));
         result &= (runParser("-").equals("FAIL"));
+        result &= (runParser("3.14e-2").equals("FAIL"));
         result &= (runParser("a").equals("FAIL"));
         result &= (runParser("abc2").equals("FAIL"));
-        //bovites
-        result &= (runParser("-3.14e2").equals("OK -3.14e+2"));
-        result &= (runParser("1.12e+1").equals("OK 1.12e+1"));
-        result &= (runParser("+0.1E10").equals("OK 0.1e+10"));
-        result &= (runParser(".1E-4").equals("OK 0.1e-4"));
-        result &= (runParser("1.E4").equals("OK 1.0e+4"));
-        result &= (runParser("13e4").equals("OK 13.0e+4"));
-        result &= (runParser("1e").equals("FAIL"));
-        result &= (runParser("+1.235E0").equals("FAIL"));
-        result &= (runParser("1e-0").equals("FAIL"));
-        result &= (runParser("+1.235E+").equals("FAIL"));
-        result &= (runParser("2+1").equals("FAIL"));
-        result &= (runParser("2 e-4").equals("FAIL"));
-        result &= (runParser("2e-04").equals("FAIL"));
         return result;
     }
     

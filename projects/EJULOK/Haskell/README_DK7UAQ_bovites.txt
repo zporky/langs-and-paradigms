@@ -1,1 +1,0 @@
-see .../DK7UAQ/task2_README.txt
