@@ -12,11 +12,14 @@ data MyState = STATE_ERR
              | STATE_S0
              | STATE_S1
              | STATE_I0
+             | STATE_I1
+             | STATE_I2
              | STATE_T1
              | STATE_T2
              | STATE_T3
              | STATE_T4
              | STATE_T5
+             | STATE_T6
 
 -- Type of action (transaction function)
 type ActionFunc = (MyState, String) -> Char -> (MyState, String)
@@ -27,18 +30,22 @@ myStateToStr STATE_ERR = "STATE_ERR"
 myStateToStr STATE_S0  = "STATE_S0"
 myStateToStr STATE_S1  = "STATE_S1"
 myStateToStr STATE_I0  = "STATE_I0"
+myStateToStr STATE_I1  = "STATE_I1"
+myStateToStr STATE_I2  = "STATE_I2"
 myStateToStr STATE_T1  = "STATE_T1"
 myStateToStr STATE_T2  = "STATE_T2"
 myStateToStr STATE_T3  = "STATE_T3"
 myStateToStr STATE_T4  = "STATE_T4"
 myStateToStr STATE_T5  = "STATE_T5"
+myStateToStr STATE_T6  = "STATE_T6"
 
 -- There are the terminals, and theirs actions
 terminals :: [(Char, ActionFunc)]
 terminals = [ ('+', actionS),
               ('-', actionS),
               ('.', actionP),
-              ('0', actionZ)
+              ('0', actionZ),
+              ('e', actionEE)
             ] ++
             [((chr (49 + x)), actionD) | x <- [0..8]]
 
@@ -48,7 +55,9 @@ actionE a _ = a
 
 -- S action
 actionS :: (MyState, String) -> Char -> (MyState, String)
-actionS (STATE_S0, str) c = (STATE_S1, str)
+actionS (STATE_S0, str) '-' = (STATE_S1, str ++ "-")
+actionS (STATE_S0, str) '+' = (STATE_S1, str)
+actionS (STATE_I1, str) c = (STATE_I2, str ++ [c])
 actionS (_,_)           _ = myFail
 
 -- P action
@@ -61,17 +70,34 @@ actionp (_,_)           _ = myFail
 -- Z action
 actionZ :: (MyState, String) -> Char -> (MyState, String)
 actionZ (STATE_S1, str) c = (STATE_T2, str ++ [c])
+actionZ (STATE_I0, str) c = (STATE_T1, str ++ [c])
+actionZ (STATE_T1, str) c = (STATE_T1, str ++ [c])
+actionZ (STATE_T3, str) c = (STATE_T3, str ++ [c])
+actionZ (STATE_T4, str) c = (STATE_T4, str ++ [c])
+actionZ (STATE_T5, str) c = (STATE_T5, str ++ [c])
+actionZ (STATE_T6, str) c = (STATE_T6, str ++ [c])
 actionZ (_,_)           _ = myFail
 
 -- D action
 actionD :: (MyState, String) -> Char -> (MyState, String)
 actionD (STATE_I0, str) c = (STATE_T1, str ++ [c])
+actionD (STATE_I2, str) c = (STATE_T6, str ++ [c])
 actionD (STATE_S1, str) c = (STATE_T4, str ++ [c]) --actionD (STATE_S1, str) c = (STATE_T4, str ++ [c])
 actionD (STATE_T1, str) c = (STATE_T1, str ++ [c])
 actionD (STATE_T3, str) c = (STATE_T3, str ++ [c])
 actionD (STATE_T4, str) c = (STATE_T4, str ++ [c])
 actionD (STATE_T5, str) c = (STATE_T5, str ++ [c])
+actionD (STATE_T6, str) c = (STATE_T6, str ++ [c])
 actionD (_,_)           _ = myFail
+
+-- E action
+actionEE :: (MyState, String) -> Char -> (MyState, String)
+actionEE (STATE_T1, str) c = (STATE_I1, str ++ [c])
+actionEE (STATE_T2, str) c = (STATE_I1, str ++ [c])
+actionEE (STATE_T3, str) c = (STATE_I1, str ++ [c])
+actionEE (STATE_T4, str) c = (STATE_I1, str ++ [c])
+actionEE (STATE_T5, str) c = (STATE_I1, str ++ [c])
+actionEE (_,_)           _ = myFail
 
 -- Fail action
 actionFail :: (MyState, String) -> Char -> (MyState, String)
@@ -87,6 +113,8 @@ isOk STATE_ERR = False
 isOk STATE_S0  = False
 isOk STATE_S1  = False
 isOk STATE_I0  = False
+isOk STATE_I1  = False
+isOk STATE_I2  = False
 isOk _         = True
 
 -- This function calculate the next state, and the output string.
@@ -109,8 +137,10 @@ checkEnd :: (MyState, String) -> (MyState, String)
     This is the logical:
         stateMachine (stateMachine (STATE_T4, str) '.') '0'
     But the '0' is not digit therefore we have to hack. -}
-checkEnd (STATE_T4, str) = actionD (stateMachine (STATE_T4, str) '.') '0' 
+checkEnd (STATE_T4, str) = actionD (stateMachine (STATE_T4, str) '.') '0'
 checkEnd (STATE_I0, _)   = myFail
+checkEnd (STATE_I1, _)   = myFail
+checkEnd (STATE_I2, _)   = myFail
 checkEnd (STATE_S0, _)   = myFail
 checkEnd (STATE_S1, _)   = myFail
 checkEnd cs              = cs

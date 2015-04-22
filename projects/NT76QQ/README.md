@@ -15,7 +15,11 @@ több helyen kellett módosítani, mint az eredeti programot, ugyanis az új ál
 
 Saját Hasekll verzió
 --------------------
-
+A programot itt is könyű volt módosítani, mivel itt nem írtam teszt programot, ezért ezzel nem egész fél
+óra alatt el is készültem. Ha előre felírtam volna, hogy melyik részekbe kell belenyúlni, akkor
+valószínűleg hiba nélkül ment volna egyből. Azért kellett csak javítani, mert az átmeneteket megvalósító
+függvényeket néhol elfelejtettem módosítani. De még így is hamarabb meg voltam vele mint a perl verzióval.
+Ez azért elég komolyérv a funkcionális nyelvek mellett.
 
 
 
