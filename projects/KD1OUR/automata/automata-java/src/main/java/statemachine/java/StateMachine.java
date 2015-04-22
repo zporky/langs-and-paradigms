@@ -56,11 +56,21 @@ public class StateMachine {
                 }
             }
 
+            if (nextState == StateMachineState.ILLEGAL_STATE_0 && sb.length() == 0) {
+                sb.append('0');
+            }
+
             // egyébként (ha találtunk érvényes állapot-átmenetet):
             // eltároljuk a karaktert (hozzá fog tartozni az eredményhez, ha nem előjel), és állapotot váltunk
-            if(currentTerminal != TerminalSymbol.SIGN) {
+            if (currentTerminal == TerminalSymbol.EXPONENTIAL) {
+                sb.append('e');
+            } else if(currentChar == '-' && nextState == StateMachineState.LEGAL_STATE_6) {
+                sb.append(currentChar);
+            } else if(currentTerminal != TerminalSymbol.SIGN) {
                 sb.append(currentChar);
             }
+
+
             this.state = nextState;
         }
 
@@ -69,7 +79,7 @@ public class StateMachine {
             // a befejező állapottól függően még picit alakítani kell az eredményen
             switch(this.state){
                 case LEGAL_STATE_1:
-                    return "OK 0" + sb.toString();
+                    return "OK " + sb.toString();
                 case LEGAL_STATE_2:
                     return "OK 0";
                 case LEGAL_STATE_4:
@@ -77,7 +87,9 @@ public class StateMachine {
                 case LEGAL_STATE_3:
                     return (currentTerminal != TerminalSymbol.DIGIT) ? "OK 0" : ("OK " + sb.toString());
                 case LEGAL_STATE_5:
-                    return "OK " + sb.toString() + (currentTerminal != TerminalSymbol.DIGIT ? "0" : "");
+                    return "OK " + sb.toString() + (currentTerminal != TerminalSymbol.DIGIT && currentTerminal != TerminalSymbol.ZERO ? "0" : "");
+                case LEGAL_STATE_6:
+                    return "OK " + sb.toString();
             }
         }
 

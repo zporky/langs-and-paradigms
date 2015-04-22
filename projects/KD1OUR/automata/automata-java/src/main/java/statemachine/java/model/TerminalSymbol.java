@@ -4,7 +4,7 @@ package statemachine.java.model;
  * A terminális szimbúlumok fajtája, ahogy a feladatleírásban szerepelnek.
  */
 public enum TerminalSymbol {
-    DIGIT, POINT, SIGN, ZERO;
+    DIGIT, POINT, SIGN, ZERO, EXPONENTIAL;
 
     /**
      * Egy karakterhez hozzárendeli a terminális szimbólum típusát.
@@ -22,6 +22,8 @@ public enum TerminalSymbol {
             return TerminalSymbol.POINT;
         } else if (character == '+' || character == '-') {
             return TerminalSymbol.SIGN;
+        } else if (character == 'e' || character == 'E') {
+            return TerminalSymbol.EXPONENTIAL;
         }
 
         return null;

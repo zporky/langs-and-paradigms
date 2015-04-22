@@ -1,10 +1,9 @@
-package bence.prognyelvek;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import statemachine.java.StateMachine;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,7 +11,7 @@ import java.util.Collection;
 @RunWith(Parameterized.class)
 public class StateMachineRunnerTest {
 
-    private StateMachineRunner testSubject;
+    private StateMachine testSubject = Main.stateMachine;
 
     @Parameterized.Parameter(0)
     public String input;
@@ -68,13 +67,8 @@ public class StateMachineRunnerTest {
         );
     }
 
-    @Before
-    public void setUp() {
-        testSubject = new StateMachineRunner(StateMachineBuilder.build());
-    }
-
     @Test
     public void testScenario() {
-        Assert.assertEquals(expected, testSubject.process(input));
+        Assert.assertEquals(expected, testSubject.parse(input));
     }
 }

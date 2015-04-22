@@ -21,6 +21,7 @@ public class StateMachineBuilder {
         final Condition<Character, Character> isP = new ContainmentCondition("p", new Character[] {'.'});
         final Condition<Character, Character> isZ = new ContainmentCondition("z", new Character[] {'0'});
         final Condition<Character, Character> isD = new ContainmentCondition("d", new Character[] {'1', '2', '3', '4', '5', '6', '7', '8', '9'});
+        final Condition<Character, Character> isE = new ContainmentCondition("e", new Character[] {'e', 'E'});
         final Condition<Character, Character> isZorD = new DisjunctCondition<>("z||d", new Condition[] {isZ, isD});
         final Condition<Character, Character> alwaysTrue = new DeterministicCondition<>("alwaysTrue", true);
         final Condition<Character, Character> outputIsEmpty = new OutputSize<>("outputIsEmpty", 0);
@@ -43,19 +44,36 @@ public class StateMachineBuilder {
         final SimpleState<Character, Character> t3 = new SimpleState<>("t3", true);
         final SimpleState<Character, Character> t4 = new SimpleState<>("t4", true);
         final SimpleState<Character, Character> t5 = new SimpleState<>("t5", true);
+        final SimpleState<Character, Character> e = new SimpleState<>("e");
+        final SimpleState<Character, Character> t6 = new SimpleState<>("t6", true);
 
         // Actions
+        final Action<Character, Character> copyAction = new CopyAction<>();
         final Action<Character, Character> shallowAction = new ShallowAction<>();
         final Action<Character, Character> produceZeroAction = new ProduceAction<>('0');
         final Action<Character, Character> noAction = new NoAction<>();
         final Action<Character, Character> floatCloser = new ConditionalAction<>(isCloseNeeded, new CompositeAction<>(new Action[] {
                 new ProduceAction('.'),  new ProduceAction('0')
         }));
-        final Action<Character, Character> extendedCopyAction = new CompositeAction<>(new Action[] {new CopyAction<>(), floatCloser});
+
+        final Action<Character, Character> extendedCopyAction = new CompositeAction<>(new Action[] {copyAction, floatCloser});
+
         final Action<Character, Character> pointProcessing = new CompositeAction<>(new Action[] {
                 new ConditionalAction(outputIsEmpty, produceZeroAction),
                 new CopyAction(),
                 new ConditionalAction(noMoreToRead, produceZeroAction)
+        });
+
+        final Action<Character, Character> signAction = new CompositeAction<>(new Action[] {
+                new ConditionalAction(new ContainmentCondition("+", new Character[] {'+'}), shallowAction),
+                new ConditionalAction(new ContainmentCondition("-", new Character[] {'-'}), copyAction)
+        });
+
+        final Action<Character, Character> exponentialAction = new CompositeAction<>(new Action[] {
+                new ConditionalAction(new ContainmentCondition("e", new Character[] {'e'}), copyAction),
+                new ConditionalAction(new ContainmentCondition(
+                    "E", new Character[] {'E'}), new CompositeAction(new Action[] {shallowAction, new ProduceAction('e')})
+                )
         });
 
         // Transitions
@@ -68,16 +86,26 @@ public class StateMachineBuilder {
 
         i0.addTransition(new Transition<>(isZorD, extendedCopyAction, t1));
 
+        e.addTransition(new Transition<>(isS, signAction, t6));
+        e.addTransition(new Transition<>(alwaysTrue, noAction, t6));
+
+        t6.addTransition(new Transition<>(isZorD, copyAction, t6));
+
         t1.addTransition(new Transition<>(isZorD, extendedCopyAction, t1));
+        t1.addTransition(new Transition<>(isE, exponentialAction, e));
 
         t2.addTransition(new Transition<>(isP, pointProcessing, t3));
+        t2.addTransition(new Transition<>(isE, exponentialAction, e));
 
         t3.addTransition(new Transition<>(isZorD, extendedCopyAction, t3));
+        t3.addTransition(new Transition<>(isE, exponentialAction, e));
 
         t4.addTransition(new Transition<>(isZorD, extendedCopyAction, t4));
         t4.addTransition(new Transition<>(isP, pointProcessing, t5));
+        t4.addTransition(new Transition<>(isE, exponentialAction, e));
 
         t5.addTransition(new Transition<>(isZorD, extendedCopyAction, t5));
+        t5.addTransition(new Transition<>(isE, exponentialAction, e));
 
         return new StateMachine<>(tokenizer, contextFactory, s);
     }
