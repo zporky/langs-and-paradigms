@@ -55,6 +55,9 @@ sub state_start {
     my ($self) = @_;
 
     if ( $self->{input_str} =~ $self->{symbol_s} ) {
+	    if ($1 eq '-') {
+	    	$self->{float_value} .= '-';
+	    }
         $self->pop_input_str();
     }
     $self->{state} = \&state_start_;
