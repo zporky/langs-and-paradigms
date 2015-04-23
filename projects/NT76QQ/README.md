@@ -22,6 +22,42 @@ függvényeket néhol elfelejtettem módosítani. De még így is hamarabb meg v
 Ez azért elég komolyérv a funkcionális nyelvek mellett.
 
 
+A298VQ Perl verzió
+------------------
+Viszonylag könnyű volt a módosítás. Az én változatomhoz képest annyiban volt más, hogy itt nem az
+átmenetek lettek függvényként megvalósítva, hanem az állapotok. Azaz minden állapotfüggvény azt csinálta,
+hogy olvassa az inputból a következő karaktert, és annak eredményeképp hív meg egy másik
+állapotfüggvényt. A kódnak ez a része jól érthető volt, gyakorlatilag csak fel kellett vennem az
+új állapotokhoz tartozó eljárásokat, és mivel a "0"-ás bug-ot, ami az ereedeti speckóban benne volt, azt
+itt is javítani kellett, ami szintén könnyen ment. Valamivel több mint fél óra volt a módosítást
+elvágezni.
+
+
+A298VQ Java verzió
+------------------
+Felvettem az új terminális szimbólumhoz tartozó symbol_e változót, illetve az új állapotokhoz tartozó
+eljárásokat a meglévőek alapján, illetve kiegészítettem a meglévőeket azzal, hogy a 0-t is fogadják el.
+Na azt hittem, hogy kész is vagyok, de itt jött a fekete leves több órás nyomozás és kb. 20 perc
+debugolást követően két hibába is beleestem, ami azért volt bosszantó, mert a perl változat gyakolratilag
+ment egyből.
+A symbol_s mintával, és a sate_start() függvénnyel akadtak gondjaim. Ezek ugyanis másképp működtek, mint
+a többi hasonló minta és eljárás. A symbol_s-t gondolkodás nélkül felhasználtam a state_i_1() függvényben.
+A probléma az volt, hogy a symbol_s-ben nem egy karakterre illesztés volt, hanem kettőre. Ez a kód
+böngészése közben nem szúrt szemet, így ezt csak debugolásnál láttam, hogy az illesztés az "e" után nem
+jó. Ugyanis a lemásolt függvények úgy dolgoztak, hogy a input stringből vették a következő karaktert, és
+azt egy változóba bemásolták, majd ezt a változót vizsgálták, hogy milyen karakter is van benne. Így az
+illesztésem nem volt jó. Megörültem, hogy megtaláltam a hibát, és gyorsan javítottam a symbol_s-t. De még
+mindig volt hiba.
+
+A következő problémára szintén csak debugolással jöttem rá, mert nem láttam a fától az erdőt.
+A state_start függvény a symbol_s-t nem az első karakterre próbálta illeszteni, mint a többi állapothoz
+tartozó függvény, hanem az egész inputstringre.
+Mivel nem láttam a fától az erdőt így kénytelen voltam a debuggolni a JUnit-os eljárást ismét. Ez alatt
+szembesültem azzal, hogy a javított state_start függvényben az if-ben nem s-t írtam, hanem a felette lévő
+eredeti if-ben lévő inputStr-t. Erre pedig az "-"-szal történő egyenlőség vizsgálat nem működött. Itt
+lettem mérges, és ezt az eljárást is átírtam olyanra, mint a többit. Tudom, hogy így kicsit lassabb lett
+a kód, de legalább könnyű javítani. :-)
+
 
 ===============================
 = TASK1                       =

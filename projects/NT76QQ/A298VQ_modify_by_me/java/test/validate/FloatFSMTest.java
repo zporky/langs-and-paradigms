@@ -47,13 +47,15 @@ public class FloatFSMTest {
         assertEquals(instance.validate(".1"), true);
         assertEquals(instance.validate("."), false);
         assertEquals(instance.validate("+ x1"), false);
-        assertEquals(instance.validate("3.14e-2"), false);
+        assertEquals(instance.validate("3.14e-2"), true);
         
         assertEquals(instance.validate("+0.1a"), false);
         assertEquals(instance.validate("--0"), false);
         assertEquals(instance.validate(""), false);
         assertEquals(instance.validate("0."), true);
-        assertEquals(instance.validate("111."), true);   
+        assertEquals(instance.validate("111."), true);
+        assertEquals(instance.validate("-3.14e-2"), true);
+        assertEquals(instance.validate("+31.4e+12"), true);
     }
     
 }
