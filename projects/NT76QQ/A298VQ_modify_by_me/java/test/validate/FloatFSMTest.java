@@ -52,6 +52,7 @@ public class FloatFSMTest {
         assertEquals(instance.validate("+0.1a"), false);
         assertEquals(instance.validate("--0"), false);
         assertEquals(instance.validate(""), false);
+        assertEquals(instance.validate("1."), true);
         assertEquals(instance.validate("0."), true);
         assertEquals(instance.validate("111."), true);
         assertEquals(instance.validate("-3.14e-2"), true);

@@ -138,6 +138,9 @@ checkEnd :: (MyState, String) -> (MyState, String)
         stateMachine (stateMachine (STATE_T4, str) '.') '0'
     But the '0' is not digit therefore we have to hack. -}
 checkEnd (STATE_T4, str) = actionD (stateMachine (STATE_T4, str) '.') '0'
+checkEnd (STATE_T5, str)
+    | (last str) == '.'  = (STATE_T5, str ++ "0")
+    | otherwise          = (STATE_T5, str)
 checkEnd (STATE_I0, _)   = myFail
 checkEnd (STATE_I1, _)   = myFail
 checkEnd (STATE_I2, _)   = myFail

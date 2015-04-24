@@ -128,6 +128,9 @@ sub do {
 		$self->action_p(".");
 		$self->action_d("0");
 	}
+	elsif ( $self->{'state'} == STATE_T5 && $self->{'output'} =~ /\.$/) {
+		$self->{'output'} .= "0";
+	}
 	elsif ($self->{'state'} == STATE_I0
 		|| $self->{'state'} == STATE_I1
 		|| $self->{'state'} == STATE_I2

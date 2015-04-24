@@ -298,7 +298,7 @@ is($sm->do($c), "1.0", $testName);
 $c = "1.";
 $testName = "StateMachine->do($c)";
 $sm->reset();
-is($sm->do($c), "1.", $testName);
+is($sm->do($c), "1.0", $testName);
 
 $c = ".";
 $testName = "StateMachine->do($c)";

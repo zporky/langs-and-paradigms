@@ -208,6 +208,8 @@ public class FloatFSM {
         position++;
         
         if (position == inputStr.length()) {
+        	if(floatValue.charAt(floatValue.length()-1) == '.')
+        		floatValue.append("0");
             return terminate(true);
         }
 

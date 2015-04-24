@@ -3,7 +3,9 @@
 ===============================
 
 A feladat specifikációját (állapotgépet) javítottam. Ehhez készítettem egy kis grafikát is, ami az
-az új állapotgép állapotatit és átmeneteit mutatja be. (Floating_numbers_validation.gif)
+az új állapotgép állapotatit és átmeneteit mutatja be. (Floating_numbers_validation.gif) Illetve
+annyit módosítottam még a specifikáción, hogy a negatív számok esetén a szám előjelét nem nyeli le
+a program. (lásd: test_result.txt)
 
 
 Saját Perl verzió
@@ -19,7 +21,7 @@ A programot itt is könyű volt módosítani, mivel itt nem írtam teszt program
 óra alatt el is készültem. Ha előre felírtam volna, hogy melyik részekbe kell belenyúlni, akkor
 valószínűleg hiba nélkül ment volna egyből. Azért kellett csak javítani, mert az átmeneteket megvalósító
 függvényeket néhol elfelejtettem módosítani. De még így is hamarabb meg voltam vele mint a perl verzióval.
-Ez azért elég komolyérv a funkcionális nyelvek mellett.
+Ez azért elég komoly érv a funkcionális nyelvek mellett.
 
 
 A298VQ Perl verzió
@@ -29,8 +31,7 @@ Viszonylag könnyű volt a módosítás. Az én változatomhoz képest annyiban 
 hogy olvassa az inputból a következő karaktert, és annak eredményeképp hív meg egy másik
 állapotfüggvényt. A kódnak ez a része jól érthető volt, gyakorlatilag csak fel kellett vennem az
 új állapotokhoz tartozó eljárásokat, és mivel a "0"-ás bug-ot, ami az ereedeti speckóban benne volt, azt
-itt is javítani kellett, ami szintén könnyen ment. Valamivel több mint fél óra volt a módosítást
-elvágezni.
+itt is javítani kellett, ami szintén könnyen ment. Kb. háromnegyed óra volt a módosítást elvágezni.
 
 
 A298VQ Java verzió
@@ -48,7 +49,6 @@ jó. Ugyanis a lemásolt függvények úgy dolgoztak, hogy a input stringből ve
 azt egy változóba bemásolták, majd ezt a változót vizsgálták, hogy milyen karakter is van benne. Így az
 illesztésem nem volt jó. Megörültem, hogy megtaláltam a hibát, és gyorsan javítottam a symbol_s-t. De még
 mindig volt hiba.
-
 A következő problémára szintén csak debugolással jöttem rá, mert nem láttam a fától az erdőt.
 A state_start függvény a symbol_s-t nem az első karakterre próbálta illeszteni, mint a többi állapothoz
 tartozó függvény, hanem az egész inputstringre.
@@ -57,6 +57,26 @@ szembesültem azzal, hogy a javított state_start függvényben az if-ben nem s-
 eredeti if-ben lévő inputStr-t. Erre pedig az "-"-szal történő egyenlőség vizsgálat nem működött. Itt
 lettem mérges, és ezt az eljárást is átírtam olyanra, mint a többit. Tudom, hogy így kicsit lassabb lett
 a kód, de legalább könnyű javítani. :-)
+Összeségében több mint 2, de talán 3 órát is elszüttyögtem ezzel. :-(
+
+
+UDB51N Haskell verzió
+---------------------
+Mivel az A298VQ által megvalósított programozási nyelveket viszonylag jól ismerem, ezért kerestem egy
+haskell-es változatot is.
+
+Alapvetően tetszett a kód, bár azt nem értettem, hogy az állapotoknak miért sima egész számok feleltek meg.
+Ez a sebességen talán javít (bár nem hiszem), de nehezen olvasható, és értelmezhető a kód. Ezért, hogy a
+saját dolgomat megkönnyítsem felvettem olyan konstans függvényeket, amelyek ezeket a számokat adják vissza.
+Így egy kicsit olvashatób lett a kód. Illetve nekem nem kellett megjegyeznem, hogy melyik állapotnak melyik
+szám felel meg.
+Az állapotok számokkal történő reprezentálása azért sem jó megoldás szerintem, mert így nincs kihasználva
+a haskell szigorú típusossága, így kódmódosítás során könnyen lehet hibázni. Kicsit tovább tartott ezt a
+kódot módosítani, mint a többit, mert nem csak a számokat kellett kibogóznom, hogy melyik melyik állapotot
+reprezentálja, de a függvényeket is meg kellett értenem, ugyanis a kiírt eredményekbe is bele kellett
+módosítani.
+Ha eltekintek az állapotok típusától, az algoritmus frappánsabb a sajátomnál, bár a listák használata itt
+sem a sebesség záloga, már csak azért sem mivel sok helyen van használva a ++ és a last függvény.
 
 
 ===============================
