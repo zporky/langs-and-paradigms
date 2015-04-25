@@ -1,6 +1,0 @@
-to run:
-mkdir bin
-javac -d bin src/validate/*
-
-cd bin
-java validate.Float

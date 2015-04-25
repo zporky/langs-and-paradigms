@@ -1,5 +1,0 @@
-to run:
-perl -Ilib float_machine.pl
-
-to run the tests:
-perl -Ilib t/01.t
