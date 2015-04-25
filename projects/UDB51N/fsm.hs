@@ -17,37 +17,69 @@ isZ c = c == '0'
 isD :: Char -> Bool
 isD c = elem c ['1','2','3','4','5','6','7','8','9']
 
+isE :: Char -> Bool
+isE c = c == 'e'
+
 states :: [Int]
-states = [0..8]
+states = [0..11]
+
+state_s0 = 0
+state_s1 = 1
+state_i0 = 2
+state_i1 = 9
+state_i2 = 10
+state_t1 = 3
+state_t2 = 4
+state_t3 = 5
+state_t4 = 6
+state_t5 = 7
+state_t6 = 11
+state_err = 8
+
 
 transitions :: Int -> Char -> Int
-transitions 0 t
-	| isS t = 1
-transitions 1 t
-	| isP t = 2 
-	| isZ t = 4
-	| isD t = 6
-	| otherwise = 8
-transitions 2 t
-	| isD t = 3
-	| otherwise = 8
-transitions 3 t
-	| isD t = 3
-	| otherwise = 8
-transitions 4 t
-	| isP t = 5
-	| otherwise = 8
-transitions 5 t
-	| isD t = 5
-	| otherwise = 8
-transitions 6 t
-	| isD t = 6
-	| isP t = 7
-	| otherwise = 8
-transitions 7 t
-	| isD t = 7
-	| otherwise = 8
-transitions _ t = 8
+transitions 0 t -- S0
+	| isS t = state_s1
+	| otherwise = state_err
+transitions 1 t -- S1
+	| isP t = state_i0 
+	| isZ t = state_t2
+	| isD t = state_t4
+	| otherwise = state_err
+transitions 2 t -- I0
+	| (isD t) || (isZ t) = state_t1
+	| otherwise = state_err
+transitions 9 t -- I1
+	| isS t = state_i2
+	| otherwise = state_err
+transitions 10 t -- I2
+	| isD t = state_t6
+	| otherwise = state_err
+transitions 3 t -- T1
+	| (isD t) || (isZ t) = state_t1
+	| isE t = state_i1
+	| otherwise = state_err
+transitions 4 t -- T2
+	| isP t = state_t3
+	| isE t = state_i1
+	| otherwise = state_err
+transitions 5 t -- T3
+	| (isD t) || (isZ t) = state_t3
+	| isE t = state_i1
+	| otherwise = state_err
+transitions 6 t -- T4
+	| (isD t) || (isZ t) = state_t4
+	| isP t = state_t5
+	| isE t = state_i1
+	| otherwise = state_err
+transitions 7 t -- T5
+	| (isD t) || (isZ t) = state_t5
+	| isE t = state_i1
+	| otherwise = state_err
+transitions 11 t -- T6
+	| (isD t) || (isZ t) = state_t6
+	| otherwise = state_err
+transitions _ t = 8 -- ERROR
 
 evalFileContent file = do
 	f <- readFile file
@@ -60,8 +92,8 @@ processContent [] 	= do
 	logResult ([],"")
 processContent (x:xs) = do
 	if (isS (head x))
-		then put ([0], x)
-		else put ([1], x)
+		then put ([state_s0], x)
+		else put ([state_s1], x)
 	(s, str) <- processLine x
 	logResult (s, str)
 	processContent xs
@@ -84,13 +116,17 @@ processLine (x:xs) 	= do
 logResult :: ([Int],String) -> WriterT String (State ([Int],String)) ([Int],String)
 logResult ([],y)								= writer (([],y), "")
 logResult (x,y)
-	| elem (last x) [1..2] || (last x) == 8 	= writer ((x,y), "FAIL\n")
-	| (head x) == 0								= writer ((x,y), "OK " ++ (tail y) ++ "\n")
-	| (head x) == 1 && (x!!1) == 2				= writer ((x,y), "OK " ++ "0" ++ y ++ "\n")
-	| (last x) == 6								= writer ((x,y), "OK " ++ y ++ ".0\n")
-	| otherwise									= writer ((x,y), "OK " ++ y  ++ "\n")
+	| elem (last x) [state_s0, state_s1, state_i0, state_i1, state_i2, state_err]
+	                                                = writer ((x,y), "FAIL\n")
+	| (head x) == state_s0 && (head y) == '-'	    = writer ((x,y), "OK " ++ y ++ "\n")
+	| (head x) == state_s0 && (head y) /= '-'	    = writer ((x,y), "OK " ++ (tail y) ++ "\n")
+	| (head x) == state_s1 && (x!!1) == state_i0    = writer ((x,y), "OK " ++ "0" ++ y ++ "\n")
+	| (last x) == state_t4 && (last y) == '.'	    = writer ((x,y), "OK " ++ y ++ ".0\n")
+	| (last x) == state_t5 && (last y) == '.'	    = writer ((x,y), "OK " ++ y ++ "0\n")
+	| otherwise									    = writer ((x,y), "OK " ++ y ++ "\n")
 
 main = do
 	args <- getArgs
 	content <- evalFileContent (head args)
 	putStr (evalState (execWriterT (processContent content))  ([],""))
+

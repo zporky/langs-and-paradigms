@@ -14,6 +14,7 @@ sub new {
         symbol_s    => qr/^(\+|-)/,    #
         symbol_d    => qr/[1-9]/,
         symbol_z    => qr/0/,
+        symbol_e    => qr/e/
     };
 
     bless $self, $class;
@@ -54,6 +55,9 @@ sub state_start {
     my ($self) = @_;
 
     if ( $self->{input_str} =~ $self->{symbol_s} ) {
+	    if ($1 eq '-') {
+	    	$self->{float_value} .= '-';
+	    }
         $self->pop_input_str();
     }
     $self->{state} = \&state_start_;
@@ -90,9 +94,41 @@ sub state_i_0 {
 
     my $char = $self->pop_input_str();
 
-    if ( $char =~ $self->{symbol_d} ) {
+    if ( $char =~ $self->{symbol_d} || $char =~ $self->{symbol_z} ) {
         $self->{float_value} .= $char;
         $self->{state} = \&state_t_1;
+    }
+    else {
+        $self->{state} = \&state_error;
+    }
+
+    return &{ $self->{state} };
+}
+
+sub state_i_1 {
+    my ($self) = @_;
+
+    my $char = $self->pop_input_str();
+
+    if ( $char =~ $self->{symbol_s} ) {
+        $self->{float_value} .= $char;
+        $self->{state} = \&state_i_2;
+    }
+    else {
+        $self->{state} = \&state_error;
+    }
+
+    return &{ $self->{state} };
+}
+
+sub state_i_2 {
+    my ($self) = @_;
+
+    my $char = $self->pop_input_str();
+
+    if ( $char =~ $self->{symbol_d} ) {
+        $self->{float_value} .= $char;
+        $self->{state} = \&state_t_6;
     }
     else {
         $self->{state} = \&state_error;
@@ -107,8 +143,12 @@ sub state_t_1 {
 
     my $char = $self->pop_input_str();
 
-    if ( $char =~ $self->{symbol_d} ) {
+    if ( $char =~ $self->{symbol_d} || $char =~ $self->{symbol_z} ) {
         $self->{float_value} .= $char;
+    }
+    elsif ( $char =~ $self->{symbol_e}) {
+    	$self->{float_value} .= $char;
+        $self->{state} = \&state_i_1;
     }
     else {
         $self->{state} = \&state_error;
@@ -123,9 +163,13 @@ sub state_t_2 {
 
     my $char = $self->pop_input_str();
 
-    if ( $char =~ $self->{symbol_p} ) {
+    if ( $char =~ $self->{symbol_p} || $char =~ $self->{symbol_z} ) {
         $self->{float_value} .= $char;
         $self->{state} = \&state_t_3;
+    }
+    elsif ( $char =~ $self->{symbol_e}) {
+    	$self->{float_value} .= $char;
+        $self->{state} = \&state_i_1;
     }
     else {
         $self->{state} = \&state_error;
@@ -141,8 +185,12 @@ sub state_t_3 {
 
     my $char = $self->pop_input_str();
 
-    if ( $char =~ $self->{symbol_d} ) {
+    if ( $char =~ $self->{symbol_d} || $char =~ $self->{symbol_z} ) {
         $self->{float_value} .= $char;
+    }
+    elsif ( $char =~ $self->{symbol_e}) {
+    	$self->{float_value} .= $char;
+        $self->{state} = \&state_i_1;
     }
     else {
         $self->{state} = \&state_error;
@@ -165,8 +213,12 @@ sub state_t_4 {
         $self->{float_value} .= '.';
         $self->{state} = \&state_t_5;
     }
-    elsif ( $char =~ $self->{symbol_d} ) {
+    elsif ( $char =~ $self->{symbol_d} || $char =~ $self->{symbol_z} ) {
         $self->{float_value} .= $char;
+    }
+    elsif ( $char =~ $self->{symbol_e}) {
+    	$self->{float_value} .= $char;
+        $self->{state} = \&state_i_1;
     }
     else {
         $self->{state} = \&state_error;
@@ -181,7 +233,27 @@ sub state_t_5 {
 
     my $char = $self->pop_input_str();
 
-    if ( $char =~ $self->{symbol_d} ) {
+    if ( $char =~ $self->{symbol_d} || $char =~ $self->{symbol_z} ) {
+        $self->{float_value} .= $char;
+    }
+    elsif ( $char =~ $self->{symbol_e}) {
+    	$self->{float_value} .= $char;
+        $self->{state} = \&state_i_1;
+    }
+    else {
+        $self->{state} = \&state_error;
+    }
+
+    return &{ $self->{state} };
+}
+
+sub state_t_6 {
+    my ($self) = @_;
+    return $self->state_ok() unless ( $self->{input_str} );
+
+    my $char = $self->pop_input_str();
+
+    if ( $char =~ $self->{symbol_d} || $char =~ $self->{symbol_z} ) {
         $self->{float_value} .= $char;
     }
     else {
