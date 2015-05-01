@@ -23,7 +23,10 @@ public class Machine {
 		T2(true),
 		T3(true),
 		T4(true),
-		T5(true);
+		T5(true),
+		E0(false),
+		E1(false),
+		T6(true);
 
 		private final boolean terminating;
 
@@ -41,7 +44,8 @@ public class Machine {
 		s('+', '-'),
 		p('.'),
 		z('0'),
-		d('1', '2', '3', '4', '5', '6', '7', '8', '9');
+		d('1', '2', '3', '4', '5', '6', '7', '8', '9'),
+		e('e', 'E');
 
 		private Character[] validValues; // could be regular expression
 
@@ -93,6 +97,18 @@ public class Machine {
 			rules.get(State.T3).put(Transition.d, State.T3);
 			rules.get(State.T5).put(Transition.d, State.T5);
 
+			rules.get(State.T1).put(Transition.e, State.E0);
+			rules.get(State.T2).put(Transition.e, State.E0);
+			rules.get(State.T3).put(Transition.e, State.E0);
+			rules.get(State.T4).put(Transition.e, State.E0);
+			rules.get(State.T5).put(Transition.e, State.E0);
+
+			rules.get(State.E0).put(Transition.d, State.T6);
+			rules.get(State.E0).put(Transition.s, State.E1);
+
+			rules.get(State.E1).put(Transition.d, State.T6);
+
+			rules.get(State.T6).put(Transition.d, State.T6);
 		}
 
 		public static State getNextState(State currentState, Transition transation) throws InvalidTransationException {
