@@ -79,13 +79,13 @@ Installáljuk a [leiningen](http://leiningen.org/)-t, majd `lein run`-al futtath
 ##### Megvalósítás
 
 Megpróbáltam egy-az-egyben átültetni a Haskell megoldást (nem túl brilliáns koncepció, bevallom). Ennek során
-minden bizonnyal nem szereztem hanszálható tapasztalatot idiomatikus Clojure programozásról, viszont némi képet
-kaptam arról, hogy milyen lehetőséges és korlátok vannak a Clojure funkcionális progrmozásban.
+minden bizonnyal nem szereztem használható tapasztalatot idiomatikus Clojure programozásról, viszont némi képet
+kaptam arról, hogy milyen lehetőségek és korlátok vannak a Clojure funkcionális programozásban.
 
 Először abba a problémába ütköztem, hogy nincs parciális applikáció, a meglévő [`partial`](https://clojuredocs.org/clojure.core/partial) nem elég jó, mivel lényegében "egyszer használatos", és
 nem sikerült vele olyan kódot produkálnom, ami nem dob "wrong argument number" hibát váratlan helyeken. Elkezdtem keresni
 automatikus curry-ző makrókat, és találtam is, viszont úgy tűnik, hogy azt semmiképp sem lehet megoldani, hogy a
-függvénnyel visszatérű függvényt ugyanabban az S-kifejezésben applikáljuk (pl: ha  `(f a b)` függvénnyel tér vissza,
+függvénnyel visszatérő függvényt ugyanabban az S-kifejezésben applikáljuk (pl: ha  `(f a b)` függvénnyel tér vissza,
 akkor `((f a b) c)` -vel kell ezt a függvényt applikálni, pedig jobban szeretnénk az `(f a b c)` formát). Inkább 
 hagytam tehát a makrókat, és kézzel curry-ztem mindent beágyazott `fn []` -ekkel. 
 
@@ -95,7 +95,7 @@ definíció a kézenfekvő. A probléma orvosolható volt a szoksásos `Y` fixpo
 
 A végeredmény ránézésre csúnya lett, habár nem kifejezetten hosszú. Az `((f x) y)` kifejezések miatt elég nehéz volt
 formázni és helyesen zárójelezniValószínűleg a megoldás elég lassú is,
-és a stack-ből is gyorsan kifutna hosszabb inputokon, mivel nem vég rekurziót alkalmazunk. Idiomatikusabb megoldás
+és a stack-ből is gyorsan kifutna hosszabb inputokon, mivel nem vég rekurziót alkalmazunk. Szebb megoldás
 lett volna makrókat használni a monádhoz, pl. létezik egy `clojure.algo.monad` könyvtár.
 
 
