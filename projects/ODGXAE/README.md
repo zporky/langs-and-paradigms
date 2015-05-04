@@ -65,7 +65,7 @@ kontextusban azt csinálja, amit szeretnénk; de nem tudunk általánosan válta
 az operátorok nemcsak aritás szerint, hanem még az *argumentumok aritása* szerint is (!), és elméleti szempontból nem kifejezetten 
 konzisztens módon. Ugyanakkor, annak ellenére, hogy a J a "point-free" magasbbrendű függvényhasználatot ösztönzi, 
 a magasabbrendű függvények nem is igazán első osztályúak, és a szintaktikai cukor kizárólag az unáris és bináris függvényekre terjed ki. 
-Ha esetleg komplexebb, több argumentumos kombinátorokat akarnánk ad-hoc használni, az már elég kényelmetelen. A sztringként
+Ha esetleg komplexebb, több argumentumos kombinátorokat akarnánk ad-hoc használni, az már elég kényelmetlen. A sztringként
 definiált függvényekről nem is beszélve...
 
 Szóval inkább váltottam Clojure-ra. Kb. két évvel ezelőtt néhány száz sor és némi [kód-puzzle](http://www.4clojure.com/)
@@ -80,12 +80,12 @@ Installáljuk a [leiningen](http://leiningen.org/)-t, majd `lein run`-al futtath
 
 Megpróbáltam egy-az-egyben átültetni a Haskell megoldást (nem túl brilliáns koncepció, bevallom). Ennek során
 minden bizonnyal nem szereztem hanszálható tapasztalatot idiomatikus Clojure programozásról, viszont némi képet
-kaptam arról, hogy milyen lehetőséges és korlátok vannak a Clojure funkcionális progrmozásban.
+kaptam arról, hogy milyen lehetőségek és korlátok vannak a Clojure funkcionális programozásban.
 
 Először abba a problémába ütköztem, hogy nincs parciális applikáció, a meglévő [`partial`](https://clojuredocs.org/clojure.core/partial) nem elég jó, mivel lényegében "egyszer használatos", és
 nem sikerült vele olyan kódot produkálnom, ami nem dob "wrong argument number" hibát váratlan helyeken. Elkezdtem keresni
 automatikus curry-ző makrókat, és találtam is, viszont úgy tűnik, hogy azt semmiképp sem lehet megoldani, hogy a
-függvénnyel visszatérű függvényt ugyanabban az S-kifejezésben applikáljuk (pl: ha  `(f a b)` függvénnyel tér vissza,
+függvénnyel visszatérő függvényt ugyanabban az S-kifejezésben applikáljuk (pl: ha  `(f a b)` függvénnyel tér vissza,
 akkor `((f a b) c)` -vel kell ezt a függvényt applikálni, pedig jobban szeretnénk az `(f a b c)` formát). Inkább 
 hagytam tehát a makrókat, és kézzel curry-ztem mindent beágyazott `fn []` -ekkel. 
 
