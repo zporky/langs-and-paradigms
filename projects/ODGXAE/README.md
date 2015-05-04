@@ -13,7 +13,7 @@ ha ez hiányzik, akkor `cabal install mtl`-el telepíthető.
 Haskell-ben van jelentős tapasztalatom. 
 
 Haskell-ben, ha parse-olni kell, akkor mindenki valamilyen parser kombinátorhoz nyúl először. A jelenlegi feladatban
-nem lehet külső parser library-t használni; viszont ezzel együtt is borzasztó egyszerű minimális parser monádot 
+nem lehet külső parser library-t használni; viszont ezzel együtt is rendkívül egyszerű minimális parser monádot 
 csinálni kézzel. Lényegében a következővel kész is vagyunk:
 
 ```haskell
@@ -39,7 +39,7 @@ választás visszalépéses, míg a véges determinisztikus automaták leírás�
 Mindenestre én úgy írtam meg a feladathoz a parsereket, hogy ne legyen benne visszalépés, azaz a következő
 karakter kiolvasásával mindig eldönthető, hogy melyik parsert választjuk. 
 
-Laikusok esetleg mondhatnák, hogy csaltam, hiszen mégiscsak importáltam parser library-t. Én erre azt mondanám, hogy
+Első ránézésre lehetne azt mondani, hogy csaltam, hiszen mégiscsak importáltam parser library-t. Én erre azt válaszolnám, hogy
 a `Control.Monad.State` modulban szó sincs parse-olásról, és egyébként is nagyjából 15-sornyi kóddal kiváltható lenne
 ez az import (`StateT` definíció, `Monad` + `Alternative` instance). 
 
@@ -82,7 +82,7 @@ Megpróbáltam egy-az-egyben átültetni a Haskell megoldást (nem túl brilliá
 minden bizonnyal nem szereztem hanszálható tapasztalatot idiomatikus Clojure programozásról, viszont némi képet
 kaptam arról, hogy milyen lehetőséges és korlátok vannak a Clojure funkcionális progrmozásban.
 
-Először abban a problémába ütköztem, hogy nincs parciális applikáció, a meglévő [`partial`](https://clojuredocs.org/clojure.core/partial) nem elég jó, mivel lényegében "egyszer használatos", és
+Először abba a problémába ütköztem, hogy nincs parciális applikáció, a meglévő [`partial`](https://clojuredocs.org/clojure.core/partial) nem elég jó, mivel lényegében "egyszer használatos", és
 nem sikerült vele olyan kódot produkálnom, ami nem dob "wrong argument number" hibát váratlan helyeken. Elkezdtem keresni
 automatikus curry-ző makrókat, és találtam is, viszont úgy tűnik, hogy azt semmiképp sem lehet megoldani, hogy a
 függvénnyel visszatérű függvényt ugyanabban az S-kifejezésben applikáljuk (pl: ha  `(f a b)` függvénnyel tér vissza,
