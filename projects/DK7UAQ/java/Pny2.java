@@ -173,7 +173,7 @@ public class Pny2 {
         } catch (Exception e) {
             System.err.println("Invalid initalization of machine: " + e.getMessage());
         }
-        System.out.println(test());
+        // System.out.println(test());
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String result = runParser(scanner.nextLine());
