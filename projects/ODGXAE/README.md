@@ -93,14 +93,8 @@ További, viszonylag kisebb probléma az volt, hogy nincsen rekurzív `let` a Cl
 adni függvényekre (kölcsönösen rekurzívat is), de nem lehet értékekre, és a a `fraction1` parser esetén a rekurzív
 definíció a kézenfekvő. A probléma orvosolható volt a szoksásos `Y` fixpont kombinátorral. 
 
-A végeredmény ránézésre csúnya lett, habár nem kifejezetten hosszú. Az `((f x) y)` kifejezések miatt elég nehéz volt
-formázni és helyesen zárójelezniValószínűleg a megoldás elég lassú is,
-és a stack-ből is gyorsan kifutna hosszabb inputokon, mivel nem vég rekurziót alkalmazunk. Idiomatikusabb megoldás
-lett volna makrókat használni a monádhoz, pl. létezik egy `clojure.algo.monads` könyvtár.
-
-
-
-
-
-
-
+A végeredmény ránézésre csúnya lett, és abszolút nem idiomatikus. Az `((f x) y)` kifejezések miatt elég nehéz volt
+formázni és helyesen zárójelezni. Valószínűleg a megoldás elég lassú is, és a stack-ből is gyorsan kifutna hosszabb inputokon, mivel a Clojure nem optimalizál vég-rekurziót. Makrók almalmazásával sokkal átláthatóbb
+monádikus kódot lehetne írni, pl a `clojure.algo.monads` könyvtár használatával, de ezt nem vizsgáltam meg részletesebben. 
+Az implementáció inkább egyfajta kísérletnek tekinthető, amelyben feszegetjük egy kicsit a Clojure-os magasabbrendű
+függvénykezelés korlátait.
