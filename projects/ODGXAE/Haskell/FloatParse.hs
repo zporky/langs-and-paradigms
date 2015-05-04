@@ -53,5 +53,12 @@ double' =
   <|> ((+) <$> zero <*> ((char '.' *> fraction) <|> pure 0))
   <|> ((+) <$> integral <*> ((char '.' *> fraction) <|> pure 0))
 
+exponent :: Parser Double
+exponent = (char 'e' <|> char 'E') *> ((sign <*> integral) <|> integral)      
+
 double :: Parser Double
-double = ((sign <*> double') <|> double') <* eof
+double = 
+       ((sign <*> double') <|> double')
+  <**> (((\e n -> n * (10 ** e)) <$> Main.exponent) <|> pure id)
+  <*   eof
+

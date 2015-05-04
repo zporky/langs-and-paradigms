@@ -67,8 +67,7 @@
 ;; (*>) :: Parser a -> Parser b -> Parser b
 (defn apr [ma]
   (fn [mb]
-    ((ap ((fmap (fn [_] (fn [b] b))) ma)) mb)))     
-
+    ((ap ((fmap (fn [_] (fn [b] b))) ma)) mb)))
 
 ;; The actual parsers
 ;; --------------------------------------------------
@@ -130,9 +129,23 @@
       ((fmap (fn [a] #(+ a %))) integral))
      ((choose ((apr (pchar \.)) fraction)) (ret 0))))))
 
-(def pdouble
-  ((apl ((choose ((ap sign) double')) double')) eof))
+(def exponent
+  ((apr
+   ((choose (pchar \e)) (pchar \E)))
+   ((choose
+    ((ap sign) integral))
+    integral)))
 
+(def pdouble
+  ((bind
+    ((choose ((ap sign) double')) double'))
+   (fn [mantissa]
+     ((bind
+       ((choose
+         ((fmap (fn [e] (fn [n] (* n (Math/pow 10 e))))) exponent))
+        (ret identity)))
+      (fn [f]
+        (ret (f mantissa)))))))      
 
 
 ;; main
