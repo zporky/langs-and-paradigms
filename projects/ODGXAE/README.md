@@ -96,7 +96,7 @@ definíció a kézenfekvő. A probléma orvosolható volt a szoksásos `Y` fixpo
 A végeredmény ránézésre csúnya lett, habár nem kifejezetten hosszú. Az `((f x) y)` kifejezések miatt elég nehéz volt
 formázni és helyesen zárójelezniValószínűleg a megoldás elég lassú is,
 és a stack-ből is gyorsan kifutna hosszabb inputokon, mivel nem vég rekurziót alkalmazunk. Idiomatikusabb megoldás
-lett volna makrókat használni a monádhoz, pl. létezik egy `clojure.algo.monad` könyvtár.
+lett volna makrókat használni a monádhoz, pl. létezik egy `clojure.algo.monads` könyvtár.
 
 
 
