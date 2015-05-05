@@ -1,9 +1,12 @@
 ### Task 2
-----
-#### Saját kód bővítése
 
 A bővítést a következőképpen értelmeztem: a kitevőben az előjel opcionális, a kitevő nem kezdődhet nullával, legalább
 egy számjegyet tartalmazia kell, és csak egész lehet (azaz nincs tizedespont a kitevőben). 
+
+----
+#### Saját kód bővítése
+
+
 
 ##### Haskell
 
@@ -22,5 +25,20 @@ CPS, magasabbrendű függvények, stb...).
 ----
 #### Idegen kód bővítése
 
+##### Java
 
+Java-ban nem programoztam előzőleg, de a nyelvi elemek könnyen értelmezhetők előzetes C/C++/C# ismeretek birtokában.
 
+Lényeges változtatás, amit eszközöltem: elhagytam a `FloatParser` osztályt. A `FloatParser` nem generált tényleges
+`Float` értéket, hanem csak az input stringet formázta, a feladatot leaíró pdf-nek megfelelően. Viszonylag bonyolult
+volt, mivel az automata lépéseivel párhuzamosan működött. Helyette hozzáadtam egy `formatInput` metódust a `Pny2`
+osztályhoz, ami a `FloatParser`-el ekvivalens formázást valósít meg a bővítetlen nyelvtanra. 
+
+A nyelvtan bővítését új szabályok és állapotok  hozzáadásával valósítottam meg. 
+
+##### Haskell
+
+A Haskell megoldást szerkezetileg hasonló a Java-hoz, ezért változatlanul átültettem ide a `formatInput` függvényt. 
+Csináltam némi egyszerűsítést és formázást, ill. helyettesítettem néhány definícót meglévő library függvényekkel.
+A megoldást szerkezetén nem változtattam lényegesen. Ugyanazokat a szabályokat és állapotokat használtam itt is,
+mint Java-ban. 
