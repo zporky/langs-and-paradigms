@@ -50,10 +50,13 @@ public class FSM {
         currentState = startingState;
         remainingInput = new StringBuilder(input);
         while (remainingInput.length() > 0 || !currentState.isAccepted()) {
+	    // System.out.println(currentState.getID());
+	    
             if (!tryMatching()) {
                 return;
             }
         }
+	// System.out.println(currentState.getID());
         accepted = true;
     }
     
