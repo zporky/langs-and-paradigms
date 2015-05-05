@@ -91,6 +91,7 @@ public class Pny2 {
 	// extend	
 	Rule r7 = new Rule (state_t5);
 	r7.addRHS(TERMINALS_S, state_t6);
+	r7.addRHS(TERMINALS_D, state_t7);	
 	Rule r8 = new Rule (state_t6);
 	r8.addRHS(TERMINALS_D, state_t7);
 	Rule r9 = new Rule (state_t7);

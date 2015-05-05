@@ -93,7 +93,7 @@ rules = [
   Rule stT1 [RHS tD stT1, RHS tE stT5],
   Rule stT2 [RHS tP stT1, RHS tE stT5],
   Rule stT4 [RHS tD stT4, RHS tP stT1, RHS tE stT5],
-  Rule stT5 [RHS tS stT6],
+  Rule stT5 [RHS tS stT6, RHS tD stT7],
   Rule stT6 [RHS tD stT7],
   Rule stT7 [RHS tD stT7, RHS tZ stT7]]
 
