@@ -1,3 +1,27 @@
+# task2
+
+A feladat megoldásához három új állapotot határoztam meg:
+ - E0 : nem elfogadó,
+ - E1: nem elfogadó,
+ - T6: elfogadó,
+
+Új szimbólum csoport:
+ - e: {e,E}
+ 
+Az átmenetek az alábbiakban módosultak:
+- T(1-5) -> eE0  átmenettel egészült ki
+- E0    -> dT6 | sE1 | e
+- E1    -> dT6 | e
+- T6     -> dT6 | e
+
+### Tapasztalatok:
+
+A korábbi megoldásom miatt mind a perl, mind a java kódomba a három új állapotot reprezentáól függvényt kellet megírnom. Ezen felül plusz elágazásokkal kellett kiegészítenem a korábbi (T1 - T5 állapotokat reprezentáló) függvényeimet.
+A meglévő tesztjeimet kiegészítettem űj tesztesetekkel is, viszonylag gyorsan el tudtam készülni.
+
+Idegen kódnak RYRACR megoldásait választottam részben a Java miatt, részben mert mindig is érdekelt a Python.
+Nagyon szép megoldás mindkettő, jól olvasható és könnyen bővíthető. Így még gyorsabban el is tudtam készülni, mint a saját kódom átírásával.
+
 # task1
 
 ### Perl:
