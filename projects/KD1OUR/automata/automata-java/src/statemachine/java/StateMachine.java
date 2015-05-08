@@ -58,7 +58,8 @@ public class StateMachine {
 
             // egyébként (ha találtunk érvényes állapot-átmenetet):
             // eltároljuk a karaktert (hozzá fog tartozni az eredményhez, ha nem előjel), és állapotot váltunk
-            if(currentTerminal != TerminalSymbol.SIGN) {
+            if(currentTerminal != TerminalSymbol.SIGN || (this.state == StateMachineState.ILLEGAL_STATE_6
+                                                          && currentChar != '+')) {
                 sb.append(currentChar);
             }
             this.state = nextState;
@@ -78,6 +79,8 @@ public class StateMachine {
                     return (currentTerminal != TerminalSymbol.DIGIT) ? "OK 0" : ("OK " + sb.toString());
                 case LEGAL_STATE_5:
                     return "OK " + sb.toString() + (currentTerminal != TerminalSymbol.DIGIT ? "0" : "");
+                case LEGAL_STATE_7:
+                    return "OK " + sb.toString();
             }
         }
 

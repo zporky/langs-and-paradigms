@@ -50,6 +50,7 @@ object StateMachine {
         case LEGAL_STATE_3 => if (terminalSymbols.last.get != DIGIT) "OK 0" else "OK " + output
         case LEGAL_STATE_4 => "OK " + output + ".0"
         case LEGAL_STATE_5 => "OK " + output + (if (terminalSymbols.last.get != DIGIT) "0" else "")
+        case LEGAL_STATE_7 => "OK " + output
         case _ => "FAIL"
       }
     }
