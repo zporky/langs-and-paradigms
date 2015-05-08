@@ -2,8 +2,9 @@
 
 -behaviour(gen_fsm).
 
--define(REPLY(S), {reply, S, S, []}).
+-define(REPLY(S, D), {reply, S, S, D}).
 -define(STOP, {stop, normal, aborted, []}).
+-define(STOP(S), {stop, normal, S, []}).
 -define(IS_DIGIT(C), C >= $0 andalso C =< $9).
 -define(IS_TERMINAL(State), hd(atom_to_list(State)) == $t).
 -define(INITIAL_STATE, s).
@@ -16,27 +17,28 @@
 test() ->
     PositiveTests = ["1", "-3.14","0", "+0.1", ".1", "1"],
     NegativeTests = [".", "+ x1", "-", "3.14e-2"],
-    Result =[parse(Str) == true || Str <- PositiveTests] ++
-        [parse(Str) == false || Str <- NegativeTests],
+    Result =[parse(Str) || Str <- PositiveTests] ++
+        [parse(Str) || Str <- NegativeTests],
     io:format("~p~n", [Result]).
 
 parse(Str) when is_list(Str) ->
     start(),
-    Result = parse_rec(?INITIAL_STATE, Str),
-    stop(),
-    Result.
+    EndState = parse_rec(?INITIAL_STATE, Str),
+    stop(EndState).
 
 parse_rec(State, []) -> % is it a terminal state?
     hd(atom_to_list(State)) == $t;
 parse_rec(aborted, _) -> % parser is aborted
-    false; 
+    false;
 parse_rec(_State, [ C | Cs ]) ->
     parse_rec(gen_fsm:sync_send_event(?MODULE, C), Cs).
 
 start() ->    
     gen_fsm:start({local, ?MODULE}, ?MODULE, [], []).
 
-stop() ->
+stop(false) ->
+    "FAIL";
+stop(true) ->
     try gen_fsm:sync_send_all_state_event(?MODULE, stop)
     catch exit:Term -> Term % already stopped
     end.
@@ -44,35 +46,36 @@ stop() ->
 init(_) ->
     {ok, ?INITIAL_STATE, []}.
 
-handle_sync_event(stop, _From, _State, _StateData) -> ?STOP.
+handle_sync_event(stop, _From, t4, StateData) -> ?STOP(StateData ++ ".0");
+handle_sync_event(stop, _From, _State, StateData) -> ?STOP(StateData).
 
 terminate(_, _, _) -> ok.
 
 %%% FSM starts here
-s(C, _, _)  when C == $+ orelse C == $- ->  ?REPLY(s_);
-s(C, F, D) -> s_(C, F, D). % Kleene event
+s(C, _, _)  when C == $+ orelse C == $- ->  ?REPLY(s_, "OK ");
+s(C, F, _) -> s_(C, F, "OK "). % Kleene event
 
 % s' is syntactically incorrect
-s_($., _, _) -> ?REPLY(i0);
-s_($0, _, _) -> ?REPLY(t2);
-s_(C, _, _) when ?IS_DIGIT(C) -> ?REPLY(t4);
+s_($., _, D) -> ?REPLY(i0, D ++ "1.");
+s_($0, _, D) -> ?REPLY(t2, D ++ "0");
+s_(C, _, D) when ?IS_DIGIT(C) -> ?REPLY(t4, D ++ [C]);
 s_(_, _, _) -> ?STOP.
 
-i0(C, _, _) when ?IS_DIGIT(C) -> ?REPLY(t1);
+i0(C, _, D) when ?IS_DIGIT(C) -> ?REPLY(t1, D ++ [C]);
 i0(_, _, _) -> ?STOP.
 
-t1(C, _, _) when ?IS_DIGIT(C) -> ?REPLY(t1);
+t1(C, _, D) when ?IS_DIGIT(C) -> ?REPLY(t1, D ++ [C]);
 t1(_, _, _) -> ?STOP.
 
-t2($., _, _) -> ?REPLY(t3);
+t2($., _, D) -> ?REPLY(t3, D ++ ".");
 t2(_, _, _) -> ?STOP.
 
-t3(C, _, _) when ?IS_DIGIT(C) -> ?REPLY(t3);
+t3(C, _, D) when ?IS_DIGIT(C) -> ?REPLY(t3, D ++ [C]);
 t3(_, _, _) -> ?STOP.
 
-t4($., _, _) -> ?REPLY(t5);
-t4(C, _, _) when ?IS_DIGIT(C) -> ?REPLY(t4);
+t4($., _, D) -> ?REPLY(t5, D ++ ".");
+t4(C, _, D) when ?IS_DIGIT(C) -> ?REPLY(t4, D ++ [C]);
 t4(_, _, _) -> ?STOP.
 
-t5(C, _, _) when ?IS_DIGIT(C) -> ?REPLY(t5);
+t5(C, _, D) when ?IS_DIGIT(C) -> ?REPLY(t5, D ++ [C]);
 t5(_, _, _) -> ?STOP.
