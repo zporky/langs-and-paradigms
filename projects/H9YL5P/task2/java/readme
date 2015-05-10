@@ -1,0 +1,5 @@
+mkdir bin
+javac -d bin *.java
+cd bin
+java finiteStateMachine.App
+vagy: cat input.txt | java finiteStateMachine.App
