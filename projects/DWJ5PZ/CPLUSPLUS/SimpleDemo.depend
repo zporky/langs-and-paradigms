@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1430851093 source:d:\data\programs\codeblocks\simpledemo\machine.cpp
+	"Machine.h"
+
+1430851007 d:\data\programs\codeblocks\simpledemo\machine.h
+	<string>
+
+1430851026 source:d:\data\programs\codeblocks\simpledemo\main.cpp
+	<iostream>
+	<string>
+	"Machine.h"
+	<iomanip>
+	<math.h>
+
