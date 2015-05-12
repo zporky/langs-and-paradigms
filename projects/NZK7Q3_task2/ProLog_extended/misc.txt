@@ -1,0 +1,15 @@
+﻿Gondolatok:
+	- Miután egy fél perc alatt átpörgettem a korábbi megoldást, könnyű volt (copy paste) kiegészíteni a 2 új szabállyal amit kitaláltam előzetesen.
+	- Az eddigi mintát követve a kód struktúrája ugyanaz maradt, kényelmesen sikerült megoldani a kibővítést az eddigi kód nagyméretű változása elkerülésével.
+
+Használat:
+Windows > SICSTUS ProLog 4.3.1
+Consult/Compile ProgrammingLanguagesAndParadigms2Task1.pl
+
+Alapértelmezett fájlok használata:
+| ?- main.
+Saját fájlok használata:
+| ?- main(infile, outfile).
+
+pl:
+| ?- main('C:/Examples/Example1.txt', 'C:/Examples/Output1.txt').

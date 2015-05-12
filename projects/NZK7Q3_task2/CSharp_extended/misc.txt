@@ -1,0 +1,15 @@
+﻿Gondolatok:
+	- Ez se tartott sokáig, alapvetően néhány copy paste és megvolt.
+	- Kicsit lehet, hogy túlbonyolítottam anno, vagy inkább túlbiztosítottam ezt a megoldást, mivel sok volt a mellékes dolog (States enum módosítása, újabb State osztály felvétele). Ezeket anno máshogy gondoltam.
+	- Alapvetően azonban itt se jelentett különösebb nehézséget a bővítés. Körülbelül Visual Studio indítással (!!) 10 perc alatt megvolt az egész.
+
+
+Használat:
+Windows > cmd (Console)
+
+Használat:
+>ProgrammingLanguagesAndParadigms2Task1.exe filepath
+filepath= A beolvasandó fájl neve.
+
+pl:
+>ProgrammingLanguagesAndParadigms2Task1.exe ./Examples/Example1.txt
