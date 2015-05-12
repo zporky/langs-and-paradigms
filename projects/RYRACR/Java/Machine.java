@@ -23,7 +23,10 @@ public class Machine {
 		T2(true),
 		T3(true),
 		T4(true),
-		T5(true);
+		T5(true),
+		E1(false),
+		E2(false),
+		E3(true);
 
 		private final boolean terminating;
 
@@ -41,7 +44,8 @@ public class Machine {
 		s('+', '-'),
 		p('.'),
 		z('0'),
-		d('1', '2', '3', '4', '5', '6', '7', '8', '9');
+		d('1', '2', '3', '4', '5', '6', '7', '8', '9'),
+		e('e','E');
 
 		private Character[] validValues; // could be regular expression
 
@@ -92,6 +96,17 @@ public class Machine {
 			rules.get(State.T1).put(Transition.d, State.T1);
 			rules.get(State.T3).put(Transition.d, State.T3);
 			rules.get(State.T5).put(Transition.d, State.T5);
+
+			rules.get(State.T1).put(Transition.e, State.E1);
+			rules.get(State.T2).put(Transition.e, State.E1);
+			rules.get(State.T3).put(Transition.e, State.E1);
+			rules.get(State.T4).put(Transition.e, State.E1);
+			rules.get(State.T5).put(Transition.e, State.E1);
+
+			rules.get(State.E1).put(Transition.s, State.E2);
+			rules.get(State.E2).put(Transition.d, State.E3);
+			rules.get(State.E1).put(Transition.d, State.E3);
+			rules.get(State.E3).put(Transition.d, State.E3);
 
 		}
 

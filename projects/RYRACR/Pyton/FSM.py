@@ -19,6 +19,9 @@ states['T3'] = True;
 states['T4'] = True;
 states['T5'] = True;
 states['T6'] = True;
+states['E1'] = False;
+states['E2'] = False;
+states['E3'] = True;
 
 ########
 # Defining transitions
@@ -28,6 +31,7 @@ transitions['s'] = ['+', '-']
 transitions['p'] = ['.']
 transitions['z'] = ['0']
 transitions['d'] = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+transitions['e'] = ['e', 'E']
 
 def getTransation(char):
     for x in transitions:
@@ -57,6 +61,17 @@ productionRules['T4', 'd'] = 'T4'
 productionRules['T1', 'd'] = 'T1'
 productionRules['T3', 'd'] = 'T3'
 productionRules['T5', 'd'] = 'T5'
+
+productionRules['T1', 'e'] = 'E1'
+productionRules['T2', 'e'] = 'E1'
+productionRules['T3', 'e'] = 'E1'
+productionRules['T4', 'e'] = 'E1'
+productionRules['T5', 'e'] = 'E1'
+
+productionRules['E1', 's'] = 'E2'
+productionRules['E2', 'd'] = 'E3'
+productionRules['E1', 'd'] = 'E3'
+productionRules['E3', 'd'] = 'E3'
 
 def getNextState(currentState, transation):
     try:
@@ -92,4 +107,5 @@ def processLine(line):
 lines = [line.strip() for line in open(sys.argv[1])]
 for line in lines:
     processLine(line)
-    
+
+

@@ -12,3 +12,7 @@
 -.321
 1.01
 az elozo nem elfogadhato a feladat kiirasa szerint
+1e2
+2.4E-5
+.1e+3
+123.123E123

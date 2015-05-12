@@ -42,7 +42,5 @@ public class Runner {
 		} catch (IOException e) {
 			System.err.println("Could not close file...");
 		}
-
 	}
-
 }

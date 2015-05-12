@@ -1,8 +1,0 @@
-# to compile:
-mkdir bin
-javac -d bin *.java
-
-# to run:
-cd bin
-java finiteStateMachine.App
-
