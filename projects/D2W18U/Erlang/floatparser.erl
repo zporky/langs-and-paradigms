@@ -1,6 +1,6 @@
 -module(floatparser).
 
--export([run/0]).
+-export([run/0,parse/1]).
 
 run() ->
 	L = read_file("input.txt"),
@@ -12,89 +12,111 @@ read_file(FileName) ->
 	string:tokens(binary_to_list(Bin),"\r\n").
 
 parse(X) ->
-	RetS = s(X),
-	case s2(RetS) of
-		{ok, t1} -> "OK "++"0"++RetS;
-		{ok, t4} -> "OK "++RetS++".0";
-		{ok,  _} -> "OK "++RetS;
+	case s(X,"") of
+		{ok, Result} -> "OK "++Result;
 		{fail,_} -> "FAIL";
 		_ -> "FAIL"
 	end.
 
 %% S szabály
-s([])     -> {fail,empty};
-s([X|Xs]) ->
+s([],_)     -> {fail,empty};
+s([X|Xs],Acc) ->
 	case X of
-		$+ -> Xs;
-		$- -> Xs;
-		_  -> [X|Xs]
+		$+ -> s2(Xs,Acc);
+		$- -> s2(Xs,Acc);
+		_  -> s2([X|Xs],Acc)
 	end.
 
 %% S' rule
-s2([])     -> {fail,invalid};
-s2([X|Xs]) -> 
+s2([],_)     -> {fail,invalid};
+s2([X|Xs],Acc) -> 
 	D = d(X),
 	case X of
-		$. -> l0(Xs);
-		$0 -> t2(Xs);
-		D  -> t4(Xs);
+		$. -> l0(Xs,Acc++[$0]++[$.]);
+		$0 -> t2(Xs,Acc++[$0]);
+		D  -> t4(Xs,Acc++[D]);
 		_  -> {fail,invalid}
 	end.
 	
 %% l0 rule
-l0([])     -> {fail,invalid};
-l0([X|Xs]) ->
+l0([],_)     -> {fail,invalid};
+l0([X|Xs],Acc) ->
 	D = d(X),
 	case X of
-		D -> t1(Xs);
+		D -> t1(Xs,Acc++[D]);
 		_ -> {fail,invalid}
 	end.
 
-%% t1 rule	
-t1([])     -> {ok, t1};
-t1([X|Xs]) ->
+%% T1 rule	
+t1([],Acc)     -> {ok, Acc};
+t1([X|Xs],Acc) ->
 	D = d(X),
 	case X of
-		D -> t1(Xs);
-		_ -> {fail,invalid}
+		D  -> t1(Xs,Acc++[D]);
+		$e -> e(Xs,Acc++[$e]);
+		$E -> e(Xs,Acc++[$e]);
+		_  -> {fail,invalid}
 	end.
 
-%% t2 rule
-t2([])     -> {ok,t2};
-t2([X|Xs]) ->
+%% T2 rule
+t2([],Acc)     -> {ok,Acc};
+t2([X|Xs],Acc) ->
 	case X of
-		$. -> t3(Xs);
+		$. -> t3(Xs,Acc++[$.]);
+		$e -> e(Xs,Acc++[$e]);
+		$E -> e(Xs,Acc++[$e]);
 		_  -> {fail,invalid}
 	end.
 
 	
-%% t3 rule
-t3([])     -> {ok,t3};
-t3([X|Xs]) ->
+%% T3 rule
+t3([],Acc)     -> {ok,Acc++[$0]};
+t3([X|Xs],Acc) ->
 	D = d(X),
 	case X of
-		D -> t3(Xs);
+		D -> t1(Xs,Acc++[D]);
 		_ -> {fail,invalid}
 	end.
 
-%% t4 rule
-t4([])     -> {ok,t4};
-t4([X|Xs]) ->
+%% T4 rule
+t4([],Acc)     -> {ok,Acc++[$.]++[$0]};
+t4([X|Xs],Acc) ->
 	D = d(X),
 	case X of
-		D  -> t4(Xs);
-		$. -> t5(Xs);
+		D  -> t4(Xs,Acc++[D]);
+		$. -> t3(Xs,Acc++[$.]);
+		$e -> e(Xs,Acc++[$e]);
+		$E -> e(Xs,Acc++[$e]);
 		_ -> {fail,invalid}
+	end.
+	
+%% E rule
+e([],_) -> {fail, invalid};
+e([X|Xs],Acc) -> 
+	case X of
+		$+ -> l1(Xs,Acc++[$+]);
+		$- -> l1(Xs,Acc++[$-]);
+		_  -> l1([X|Xs],Acc++[$+])
 	end.
 
-%% t5 rule
-t5([])     -> {ok,t5};
-t5([X|Xs]) ->
+%% l1 rule
+l1([],_)     -> {fail,invalid};
+l1([X|Xs],Acc) ->
 	D = d(X),
 	case X of
-		D -> t5(Xs);
+		D -> e2(Xs,Acc++[D]);
 		_ -> {fail,invalid}
 	end.
+	
+%% E' rule
+e2([],Acc) -> {ok, Acc};
+e2([X|Xs],Acc) -> 
+	D = d(X),
+	case X of
+		D  -> e2(Xs,Acc++[D]);
+		_  -> {fail,invalid}
+	end.
+	
 	
 %% Digit vizsgálat	
 d(X) ->

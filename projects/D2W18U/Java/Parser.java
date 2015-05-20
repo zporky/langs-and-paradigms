@@ -1,19 +1,18 @@
 package bead01;
 
 public class Parser {
+		
 	private enum Rule {
-		S, S2, l0, T1, T2, T3, T4, T5
+		S, S2, l0, l1, T1, T2, T3, T4, E, E2 
 	}
 	
 	private static Tokenizer t;
 	private static Rule currentRule;
-	private static boolean isSigned;
 		
 	// S -> S' | sS'
 	private static void S(Terminal input) {
-		if (input == Terminal.s) {
-			isSigned = true;
-		}		
+		if ( input == Terminal.s )
+			t.RemoveLeadSign();
 		currentRule = Rule.S2;
 	}
 
@@ -21,7 +20,9 @@ public class Parser {
 	private static void S2(Terminal input) {
 		switch (input) {
 		case p:
-			currentRule = Rule.l0;
+			t.AddLeadZero();
+			t.Next();
+			currentRule = Rule.l0;			
 			break;
 		case z:
 			currentRule = Rule.T2;
@@ -41,53 +42,84 @@ public class Parser {
 		} else {
 			throw new InvalidValueException();
 		}		
+		
 	}
 
-	// T1 -> dT1 | e
+	// T1 -> dT1 | xE | e
 	private static void T1(Terminal input) {
+		switch(input) {
+		case d:
+			currentRule = Rule.T1;
+			break;
+		case x:
+			currentRule = Rule.E;
+			break;
+		default:
+			throw new InvalidValueException();
+		}
+	}
+
+	// T2 -> pT3 | xE | e
+	private static void T2(Terminal input) {
+		switch(input) {
+		case p:
+			currentRule = Rule.T3;
+			break;
+		case x:
+			currentRule = Rule.E;
+			break;
+		default:
+			throw new InvalidValueException();
+		}
+	}
+
+	// T3 -> dT1 | e
+	private static void T3(Terminal input)   {
 		if (input == Terminal.d) {
 			currentRule = Rule.T1;
 		} else {
 			throw new InvalidValueException();
 		}
 	}
-
-	// T2 -> pT2 | e
-	private static void T2(Terminal input) {
-		if (input == Terminal.p) {
-			currentRule = Rule.T3;
-		} else {
-			throw new InvalidValueException();
-		}
-	}
-
-	// T3 -> dT3 | e
-	private static void T3(Terminal input)   {
-		if (input == Terminal.d) {
-			currentRule = Rule.T3;
-		} else {
-			throw new InvalidValueException();
-		}
-	}
 	
-	// T4 -> dT4 | pT5 | e
+	// T4 -> dT4 | pT3 | xE | e
 	private static void T4(Terminal input)   {
 		switch (input) {
 		case d:
 			currentRule = Rule.T4;
 			break;
 		case p:
-			currentRule = Rule.T5;
+			currentRule = Rule.T3;
+			break;
+		case x:
+			currentRule = Rule.E;
 			break;
 		default:
 			throw new InvalidValueException();
 		}
 	}
 	
-	// T5 -> dT5 | e
-	private static void T5(Terminal input)  {
+	// E  -> sl1 | l1
+	private static void E(Terminal input) {
+		if (input != Terminal.s)
+			t.AddESign();
+			
+		currentRule = Rule.l1;	
+	}
+	
+	// l1 -> dE'
+	private static void l1(Terminal input) {
 		if (input == Terminal.d) {
-			currentRule = Rule.T5;
+			currentRule = Rule.E2;
+		} else {
+			throw new InvalidValueException();
+		}		
+	}
+	
+	// E' -> dE' | e
+	private static void E2(Terminal input)   {
+		if (input == Terminal.d) {
+			currentRule = Rule.E2;
 		} else {
 			throw new InvalidValueException();
 		}
@@ -109,55 +141,48 @@ public class Parser {
 			T3(input); break;
 		case T4:
 			T4(input); break;
-		case T5:
-			T5(input); break;
+		case E:
+			E(input); break;
+		case l1:
+			l1(input); break;
+		case E2:
+			E2(input); break;
 		default:
 			throw new InvalidValueException();
 		}
 	}
 	
-	public static String result() {
-		String output = isSigned ? t.getStr().substring(1) : t.getStr();
+	public static String getResult() {
 		switch(currentRule) {
-		case T2: case T3: case T5:
-			return "OK ".concat(output);
-		case T1:
-			return "OK 0".concat(output);
 		case T4:
-			return "OK ".concat(output.concat(".0"));
+			t.AddEndZero();
+		case T1: case T2: case T3: case E2:
+			return "OK "+t.getStr();
 		default:
-			// there is no N -> e rule type rule in the currentRule
 			return "FAIL";
 		}
+		
 	}
 	
 	public static String Parse(String input) {
 		t = new Tokenizer(input);
-		isSigned = false;
 		t.First();
-		
-		try {		
-			currentRule = Rule.S;
-			useRule(t.Current());
+		currentRule = Rule.S;
+		try {
 			
-			// S rule decides whether the input is signed or not
-			if (isSigned) {
-				t.Next();
-			}
+			useRule(t.Current()); // use S rule
 			
-			while(!t.End()) {
+			for(;!t.End();t.Next())
 				useRule(t.Current());
-				t.Next();
-			}
+			
+			return getResult();
 		} catch ( InvalidValueException e) {
 			return "FAIL";
 		}
-
-		return result();
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(Parse("asd"));
+		System.out.println(Parse("2.4E-5"));
 	}
 
 }

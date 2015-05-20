@@ -14,22 +14,24 @@ public class Main {
 		try {
 			file = new FileInputStream(args[0]);
 		} catch (FileNotFoundException e) {
-			System.exit(-1);
 			return;
 		}
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(file));
-		String ln = null;
+		
+		String line = null;
+		try {
+			while ((line = br.readLine()) != null ) {
+				System.out.println(Parser.Parse(line));
+		
+			}
+		} catch ( IOException e ) {
+			return;
+		}
 		
 		try {
-			while ((ln = br.readLine()) != null ) {
-				String Result = Parser.Parse(ln);
-				System.out.println(Result);
-			}
-			
 			br.close();
 		} catch ( IOException e ) {
-			System.exit(-1);
 			return;
 		}
 	}
