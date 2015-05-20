@@ -1,3 +1,6 @@
+Megjegyzés:
+A feladat elkészítése után jöttem rá, hogy 1 ember 2 megoldását kellett volna átírni.
+
 Feladat:
 Mostantól fogadja el az 1.3e-5 alakú számokat is.
 
@@ -44,3 +47,4 @@ Rájöttem, hogy az I0 és nem l0. Csodálkoztam is az elején, hogy miért lowe
 
 Perl(A298VQ):
 Szabályrendszert átírtam az általam módosítottra.
+
