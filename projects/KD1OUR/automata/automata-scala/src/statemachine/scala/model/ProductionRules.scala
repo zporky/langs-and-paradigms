@@ -44,6 +44,7 @@ object ProductionRules {
       }
       case LEGAL_STATE_1 => symbol match {
         case DIGIT => RuleResult(Some(LEGAL_STATE_1))
+        case EXP => RuleResult(Some(ILLEGAL_STATE_6))
         case _ => FAIL
       }
       case LEGAL_STATE_2 => symbol match {
@@ -52,15 +53,27 @@ object ProductionRules {
       }
       case LEGAL_STATE_3 => symbol match {
         case DIGIT => RuleResult(Some(LEGAL_STATE_3))
+        case EXP => RuleResult(Some(ILLEGAL_STATE_6))
         case _ => FAIL
       }
       case LEGAL_STATE_4 => symbol match {
         case DIGIT => RuleResult(Some(LEGAL_STATE_4))
         case POINT => RuleResult(Some(LEGAL_STATE_5))
+        case EXP => RuleResult(Some(ILLEGAL_STATE_6))
         case _ => FAIL
       }
       case LEGAL_STATE_5 => symbol match {
         case DIGIT => RuleResult(Some(LEGAL_STATE_5))
+        case EXP => RuleResult(Some(ILLEGAL_STATE_6))
+        case _ => FAIL
+      }
+      case ILLEGAL_STATE_6 => symbol match {
+        case DIGIT => RuleResult(Some(LEGAL_STATE_7))
+        case SIGN => RuleResult(Some(ILLEGAL_STATE_6))
+        case _ => FAIL
+      }
+      case LEGAL_STATE_7 => symbol match {
+        case DIGIT => RuleResult(Some(LEGAL_STATE_7))
         case _ => FAIL
       }
     }

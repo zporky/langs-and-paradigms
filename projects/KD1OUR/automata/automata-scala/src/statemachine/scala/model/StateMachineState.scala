@@ -14,14 +14,17 @@ object StateMachineState extends Enumeration {
     LEGAL_STATE_2,
     LEGAL_STATE_3,
     LEGAL_STATE_4,
-    LEGAL_STATE_5 = Value
+    LEGAL_STATE_5,
+    ILLEGAL_STATE_6,
+    LEGAL_STATE_7 = Value
 
   def isFinalState(state: StateMachineState): Boolean ={
     state == LEGAL_STATE_1 ||
     state == LEGAL_STATE_2 ||
     state == LEGAL_STATE_3 ||
     state == LEGAL_STATE_4 ||
-    state == LEGAL_STATE_5
+    state == LEGAL_STATE_5 ||
+    state == LEGAL_STATE_7
   }
 
 }
