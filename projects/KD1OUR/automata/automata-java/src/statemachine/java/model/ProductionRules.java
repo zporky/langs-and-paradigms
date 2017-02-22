@@ -32,34 +32,45 @@ public final class ProductionRules {
         ProductionRules.RULES.put(StateMachineState.START_UNSIGNED, startUnsignedRhs);
 
         // ILLEGAL_STATE_0 (I_0)
-        ProductionRuleRHS illegalRhs = new ProductionRuleRHS();
-        illegalRhs.addRule(TerminalSymbol.DIGIT, StateMachineState.LEGAL_STATE_1);
-        ProductionRules.RULES.put(StateMachineState.ILLEGAL_STATE_0, illegalRhs);
+        ProductionRuleRHS illegal0Rhs = new ProductionRuleRHS();
+        illegal0Rhs.addRule(TerminalSymbol.DIGIT, StateMachineState.LEGAL_STATE_1);
+        ProductionRules.RULES.put(StateMachineState.ILLEGAL_STATE_0, illegal0Rhs);
+
+        // ILLEGAL_STATE_1 (I_1)
+        ProductionRuleRHS illegal1Rhs = new ProductionRuleRHS();
+        illegal1Rhs.addRule(TerminalSymbol.SIGN, StateMachineState.ILLEGAL_STATE_0);
+        illegal1Rhs.addRule(TerminalSymbol.DIGIT, StateMachineState.LEGAL_STATE_1);
+        ProductionRules.RULES.put(StateMachineState.ILLEGAL_STATE_1, illegal1Rhs);
 
         // LEGAL_STATE_1 (T_1)
         ProductionRuleRHS legal1Rhs = new ProductionRuleRHS();
         legal1Rhs.addRule(TerminalSymbol.DIGIT, StateMachineState.LEGAL_STATE_1);
+        legal1Rhs.addRule(TerminalSymbol.E, StateMachineState.ILLEGAL_STATE_1);
         ProductionRules.RULES.put(StateMachineState.LEGAL_STATE_1, legal1Rhs);
 
         // LEGAL_STATE_2 (T_2)
         ProductionRuleRHS legal2Rhs = new ProductionRuleRHS();
         legal2Rhs.addRule(TerminalSymbol.POINT, StateMachineState.LEGAL_STATE_3);
+        legal2Rhs.addRule(TerminalSymbol.E, StateMachineState.ILLEGAL_STATE_1);
         ProductionRules.RULES.put(StateMachineState.LEGAL_STATE_2, legal2Rhs);
 
         // LEGAL_STATE_3 (T_3)
         ProductionRuleRHS legal3Rhs = new ProductionRuleRHS();
         legal3Rhs.addRule(TerminalSymbol.DIGIT, StateMachineState.LEGAL_STATE_3);
+        legal3Rhs.addRule(TerminalSymbol.E, StateMachineState.ILLEGAL_STATE_1);
         ProductionRules.RULES.put(StateMachineState.LEGAL_STATE_3, legal3Rhs);
 
         // LEGAL_STATE_4 (T_4)
         ProductionRuleRHS legal4Rhs = new ProductionRuleRHS();
         legal4Rhs.addRule(TerminalSymbol.DIGIT, StateMachineState.LEGAL_STATE_4);
         legal4Rhs.addRule(TerminalSymbol.POINT, StateMachineState.LEGAL_STATE_5);
+        legal4Rhs.addRule(TerminalSymbol.E, StateMachineState.ILLEGAL_STATE_1);
         ProductionRules.RULES.put(StateMachineState.LEGAL_STATE_4, legal4Rhs);
 
         // LEGAL_STATE_5 (T_5)
         ProductionRuleRHS legal5Rhs = new ProductionRuleRHS();
         legal5Rhs.addRule(TerminalSymbol.DIGIT, StateMachineState.LEGAL_STATE_5);
+        legal5Rhs.addRule(TerminalSymbol.E, StateMachineState.ILLEGAL_STATE_1);
         ProductionRules.RULES.put(StateMachineState.LEGAL_STATE_5, legal5Rhs);
 
     }

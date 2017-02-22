@@ -31,25 +31,33 @@ object StateMachine {
       }
     }
 
+    // input ketté bontása (e, vagy E karakter előtti rész, és a többi)
+    val indexOfE = Integer.max(input.indexOf('e'), input.indexOf('E'))
+    val inputUntilE = if (indexOfE > -1) input.substring(0, indexOfE) else input : String
+    val outputFromE = if (indexOfE > -1) input.substring(indexOfE) else "" : String
+
     // a karaktereket megfeleltetjük terminális szimbúloknak, majd feldolgozzuk őket a fent definiált process függvénnyel
-    val terminalSymbols = input.map(x => getTerminalSymbol(x))
-    val lastState = processSymbols(terminalSymbols, START_SIGNED)
+    val terminalSymbolsUntilE = inputUntilE.map(x => getTerminalSymbol(x))
+    val terminalSymbolsFromE = outputFromE.map(x => getTerminalSymbol(x))
+    // elmentjük az E karakter előtt lévő állapotot, és az utolsó állapotot
+    val stateBeforeE = processSymbols(terminalSymbolsUntilE, START_SIGNED)
+    val lastState = if (stateBeforeE.isDefined) processSymbols(terminalSymbolsFromE, stateBeforeE.get) else None
 
     // amennyiben valamely karakter érvénytelen volt (vagy mert nem egy érvényes terminális, vagy mert olyan állapotban
 	// következett, ahol nem következhet), vagy az utolsó állapot nem elfogadó állapot, akkor az eredmény "FAIL"
     if(!lastState.isDefined || !isFinalState(lastState.get)) "FAIL" else {
       // egy kis output formázás, ha az automata elfogadta az inputot
-	  // előjel levágása
-      val output = if(terminalSymbols.head.get == SIGN) input.tail else input
+	    // előjel levágása
+      val outputUntilE = if(terminalSymbolsUntilE.head.get == SIGN) inputUntilE.tail else inputUntilE
 
 	  // hiányzó 0-k pótlása a szám elejéről/végéről
 	  // a korrigálás mikéntje kitalálható az utolsó állapot és terminális szimbólum ismeretében
-      lastState.get match {
-        case LEGAL_STATE_1 => "OK 0" + output
-        case LEGAL_STATE_2 => "OK 0"
-        case LEGAL_STATE_3 => if (terminalSymbols.last.get != DIGIT) "OK 0" else "OK " + output
-        case LEGAL_STATE_4 => "OK " + output + ".0"
-        case LEGAL_STATE_5 => "OK " + output + (if (terminalSymbols.last.get != DIGIT) "0" else "")
+      stateBeforeE.get match {
+        case LEGAL_STATE_1 => "OK 0" + outputUntilE + outputFromE
+        case LEGAL_STATE_2 => "OK 0" + outputFromE
+        case LEGAL_STATE_3 => if (terminalSymbolsUntilE.last.get != DIGIT) "OK 0" else "OK " + outputUntilE + outputFromE
+        case LEGAL_STATE_4 => "OK " + outputUntilE + ".0" + outputFromE
+        case LEGAL_STATE_5 => "OK " + outputUntilE + (if (terminalSymbolsUntilE.last.get != DIGIT) "0" else "") + outputFromE
         case _ => "FAIL"
       }
     }

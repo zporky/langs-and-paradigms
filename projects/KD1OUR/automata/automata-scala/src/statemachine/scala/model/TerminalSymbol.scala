@@ -7,7 +7,7 @@ object TerminalSymbol extends Enumeration {
 
   type TerminalSymbol = Value
 
-  val DIGIT, POINT, SIGN, ZERO = Value
+  val DIGIT, POINT, SIGN, ZERO, E = Value
 
   /**
    * Egy karakterhez hozzárendeli a terminális szimbólum típusát.
@@ -21,6 +21,7 @@ object TerminalSymbol extends Enumeration {
     else if (char.isDigit) Some(DIGIT)
     else if (char == '.') Some(POINT)
     else if (char == '+'  || char == '-') Some(SIGN)
+    else if (char == 'e' || char == 'E') Some(E)
     else None
   }
 
