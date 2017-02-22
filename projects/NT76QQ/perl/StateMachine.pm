@@ -16,7 +16,11 @@ use constant {
 	TERM_P    => 10,
 	TERM_Z    => 11,
 	TERM_E    => 12,
-	TERM_D    => 13
+	TERM_D    => 13,
+	TERM_EE   => 14,
+	STATE_I1  => 15,
+	STATE_I2  => 16,
+	STATE_T6  => 17
 };
 
 # Terminals
@@ -25,7 +29,8 @@ my %terminals = (
 	"-" => TERM_S,
 	"." => TERM_P,
 	0   => TERM_Z,
-	""  => TERM_E
+	""  => TERM_E,
+	"e" => TERM_EE
 );
 foreach my $i ( 1 .. 9 ) {
 	$terminals{$i} = TERM_D;
@@ -98,6 +103,9 @@ sub do {
 			elsif ( $terminals{$c} == TERM_D ) {
 				$self->action_d($c);
 			}
+			elsif ( $terminals{$c} == TERM_EE ) {
+				$self->action_ee($c);
+			}
 			else {
 				$str = "";
 				$self->fail();
@@ -120,7 +128,12 @@ sub do {
 		$self->action_p(".");
 		$self->action_d("0");
 	}
+	elsif ( $self->{'state'} == STATE_T5 && $self->{'output'} =~ /\.$/) {
+		$self->{'output'} .= "0";
+	}
 	elsif ($self->{'state'} == STATE_I0
+		|| $self->{'state'} == STATE_I1
+		|| $self->{'state'} == STATE_I2
 		|| $self->{'state'} == STATE_S0
 		|| $self->{'state'} == STATE_S1 )
 	{
@@ -144,6 +157,37 @@ sub action_e {
 
 }
 
+# e action
+sub action_ee {
+	my $self = shift;
+	my $c    = shift;
+	unless ( defined $c ) {
+		$c = "";
+	}
+	
+	# STATE_T1 --> STATE_I1
+	# STATE_T2 --> STATE_I1
+	# STATE_T3 --> STATE_I1
+	# STATE_T4 --> STATE_I1
+	# STATE_T5 --> STATE_I1
+	if ( $self->{'state'} == STATE_T1
+		|| $self->{'state'} == STATE_T2
+		|| $self->{'state'} == STATE_T3
+		|| $self->{'state'} == STATE_T4
+		|| $self->{'state'} == STATE_T5 ) {
+		$self->{'state'} = STATE_I1;
+	}
+
+	# FAIL
+	else {
+		$self->fail();
+	}
+	
+	if ( $self->{'state'} != STATE_ERR ) {
+			$self->{'output'} .= $c;
+	}
+}
+
 # s action
 sub action_s {
 	my $self = shift;
@@ -156,15 +200,20 @@ sub action_s {
 	if ( $self->{'state'} == STATE_S0 ) {
 		$self->{'state'} = STATE_S1;
 	}
+	
+	# STATE_I1 --> STATE_I2
+	elsif ( $self->{'state'} == STATE_I1 ) {
+		$self->{'state'} = STATE_I2;
+	}
 
 	# FAIL
 	else {
 		$self->fail();
 	}
-
-	#	if ( $self->{'state'} != STATE_ERR ) {
-	#		$self->{'output'} .= $c;
-	#	}
+	
+	if ( ($self->{'state'} != STATE_ERR && $c eq "-") || $self->{'state'} == STATE_I2 ) {
+			$self->{'output'} .= $c;
+	}
 }
 
 # p action
@@ -217,6 +266,27 @@ sub action_z {
 	if ( $self->{'state'} == STATE_S1 ) {
 		$self->{'state'} = STATE_T2;
 	}
+	
+	# STATE_I0 --> STATE_T1
+	elsif ( $self->{'state'} == STATE_I0 ) {
+		$self->{'state'} = STATE_T1;
+	}
+
+	# STATE_T1 --> STATE_T1
+	# STATE_T3 --> STATE_T3
+	# STATE_T4 --> STATE_T4
+	# STATE_T5 --> STATE_T5
+	# STATE_T6 --> STATE_T6
+	elsif ($self->{'state'} == STATE_T1
+		|| $self->{'state'} == STATE_T1
+		|| $self->{'state'} == STATE_T3
+		|| $self->{'state'} == STATE_T4
+		|| $self->{'state'} == STATE_T5
+		|| $self->{'state'} == STATE_T6 )
+	{
+
+		# do nothing
+	}
 
 	# FAIL
 	else {
@@ -246,15 +316,22 @@ sub action_d {
 		$self->{'state'} = STATE_T4;
 	}
 
+	# STATE_I2 --> STATE_T6
+	elsif ( $self->{'state'} == STATE_I2 ) {
+		$self->{'state'} = STATE_T6;
+	}
+
 	# STATE_T1 --> STATE_T1
 	# STATE_T3 --> STATE_T3
 	# STATE_T4 --> STATE_T4
 	# STATE_T5 --> STATE_T5
+	# STATE_T6 --> STATE_T6
 	elsif ($self->{'state'} == STATE_T1
 		|| $self->{'state'} == STATE_T1
 		|| $self->{'state'} == STATE_T3
 		|| $self->{'state'} == STATE_T4
-		|| $self->{'state'} == STATE_T5 )
+		|| $self->{'state'} == STATE_T5
+		|| $self->{'state'} == STATE_T6 )
 	{
 
 		# do nothing

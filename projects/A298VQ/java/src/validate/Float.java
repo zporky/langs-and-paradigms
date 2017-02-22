@@ -14,6 +14,7 @@ public class Float {
             fsm.validate(str);
             System.out.println(str + "\t" + fsm.result);
         }
+        s.close();
     }
 
 }
