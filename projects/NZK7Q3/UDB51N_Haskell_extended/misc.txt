@@ -1,0 +1,10 @@
+Gondolatok:
+	- Itt probléma volt, hogy az állapotokat s 0..8 számoknak feleltette meg, így külön számolgatnom kellett, hogy most hanyadik állaptnál vagyok, ami 9 állapotnál nem annyira sok, de lehetett volna rosszabb is.
+	- Miután rájöttem, hogy az utolsó állapotot (8) a végzõ állapotnak tartotta fennt, mindenhol át kellett írnom a 8-kat 10-re.
+	- A szabályok felvétele egyszerû volt.
+	- Azonban a T6 -> T7 | sT7 -et csak úgy, mint az S-nél nem lehetett vizsgálni, mivel õ külön ezt lekezelte máshol a kezdeti híváskor. így vagy belegányolok a kódba, vagy így hagyom. utóbbit válaszotttam.
+	- Külön át kellett még írnom egy helyen a végzõ állapot számát ugyebár 8-ról 10-re.
+	
+Használat:
+	- a programot a forrásfájl mappájában kiadott "ghc fsm.hs" ill. "fsm <inputfile_name>" parancsokkal futtaható, ahol
+	- az input fájl a forrásfájl mappájában kell legyen
