@@ -11,7 +11,9 @@ public enum StateMachineState {
     LEGAL_STATE_2(true),
     LEGAL_STATE_3(true),
     LEGAL_STATE_4(true),
-    LEGAL_STATE_5(true);
+    LEGAL_STATE_5(true),
+    EXPONENTIAL_STATE(false),
+    LEGAL_STATE_6(true);
 
     private boolean finalState;
 

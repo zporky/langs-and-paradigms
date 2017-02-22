@@ -20,6 +20,6 @@ public class ContainmentCondition<T, O> extends AbstractCondition<T, O> {
 
     @Override
     public boolean checkAgainst(final ContextView<T, O> context) {
-        return allowedTokens.contains(context.peakToken());
+        return context.hasNextToken() && allowedTokens.contains(context.peakToken());
     }
 }
