@@ -55,7 +55,7 @@ namespace ProgNyelvekBead.StateMachine
                     success = false;
                 }
             }
-            if (success && nextState.Next == null)
+            if (success && nextState/*.Next !!!!! */ == null)
             {
                 success = false;
             }

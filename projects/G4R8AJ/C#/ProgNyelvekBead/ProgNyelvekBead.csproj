@@ -45,6 +45,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachine\StateMachine.cs" />
     <Compile Include="States\AbstractState.cs" />
+    <Compile Include="States\ExponentState.cs" />
+    <Compile Include="States\ELetterState.cs" />
     <Compile Include="States\FractureState.cs" />
     <Compile Include="States\IntegralState.cs" />
     <Compile Include="States\IState.cs" />

@@ -40,3 +40,27 @@
 		-A főbb különbségek a két implementáció között, hogy itt az állapot tárolja a maradék inputot, a jelenleg összeakkumulált értéket és a következő állapotot
 		-Próbáltam nem egy-az-egy ben a c++-t portolni, hanem egy implementációs alternatívát adni a c++-osra a C# nyelv elemeit felhasználva
 		-Kevesebb ellenőrzés szükséges,mint a c++-os verzióban, így a forrásfájlok is rövidebbek
+		
+# C# Második feladat - idegen fejlesztő módosítása, általa kevésbé ismert nyelvben
+	## Tapasztalatok
+		-Nem meglepődve látom, hogy nincs command line build mellékelve, hanem kötelezve vagyok a teljes Visual Studion használatára
+		-Meglepően sok forrásfájl tárult elém a projekt megnyitása után
+		-Kód megértése viszonylag egyszerű volt, ám ezt nem a nyelv előnyének tekintem, sokkal inkább a feladat egyszerűségének
+		-AbstractState fájl olvashatatlan számomra a formázás miatt. Rengeteg az "üres" sor.
+		-Szomorúan tapasztaltam, hogy több új fájlt kell létrehoznom, töbnyire copy-paste kóddal. Ezt nem a nyelv-nek róvom fel, inkább a program tervezésének.
+		-Észrevettem, hogy a PointState furán van használva. VisualStudion ismereteim elég csekélyek de így is egy pillanat alatt rá tudtam keresni az őt használó referenciákra. VS egy jó IDE.
+		-Hiányoznak a Java-beli konveciók: javadoc style, konvenció, hogy a getter neve azért igyekszik megegyzezni a mező nevével. Ez a hibakeresést mind-mind nehezíti.
+```
+        public IState Next
+        {
+            get
+            {
+                return this.followingState;
+            }
+            set
+            {
+                this.followingState = value;
+            }
+        }
+```
+		-Az eredeti program szerintem sok helyen hibás. Minimálisan belemódosítottam, hogy értelmesen lehessen implementálni az új funkciót. VS-ben jó debuggolni.

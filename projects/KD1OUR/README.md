@@ -101,3 +101,8 @@ object Main {
   }
 }
 ```
+Java megoldás - második feladat - ismertebb nyelv, idegen program
+=============
+__Név:__ Márton Felicián
+E program kibővítése igen egyszerű volt, hiszen implementációjában alapvetően az én gondolatmenetemet követte. Módosítás annyiban kimerült hogy létrehoztam az új állapotokat és átmeneti szabályokat.
+Egy apróbb copy-paste hiba belecsúszott a szabályrendszer kibővítéslbe, ami null pointer exception-t okozott, pedig értelmes technikailag semmi gond nem volt a szabályrendszerrel, csak éppen nem a feladatban szereplő állapotgépet oldotta meg. Kijavítása nem tartott tovább 1 percnél, hiszen a stacktrace és debug módszerek Javában elég jók.

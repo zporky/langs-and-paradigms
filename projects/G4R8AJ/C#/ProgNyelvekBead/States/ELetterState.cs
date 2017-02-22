@@ -6,28 +6,23 @@ using System.Threading.Tasks;
 
 namespace ProgNyelvekBead.States
 {
-    class FractureState : AbstractState
+    class ELetterState : AbstractState
     {
-        public FractureState(String word, String curVal) : base(word, curVal) { }
+        public ELetterState(String word, String curVal) : base(word, curVal) { }
 
         protected override void calculateNextState(Char curChar)
         {
- 	        if(Char.IsDigit(curChar))
+            if (Char.IsDigit(curChar))
             {
                 this.remWord = this.remWord.Remove(0, 1);
                 this.curVal = this.curVal + curChar.ToString();
-                this.followingState = this;
-            }
-            else if (Char.ToLower(curChar) == 'e')
-            {
-                this.remWord = this.remWord.Remove(0, 1);
-                this.curVal = this.curVal + 'e';
-                this.followingState = new ELetterState(remWord, curVal);
+                this.followingState = new ExponentState(remWord, curVal);
             }
             else
             {
                 this.followingState = null;
             }
+
         }
     }
 }
