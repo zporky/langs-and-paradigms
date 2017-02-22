@@ -3,9 +3,10 @@ package validate;
 public class FloatFSM {
 
     private final String symbol_p = "\\.";
-    private final String symbol_s = "^[+|-].+";
+    private final String symbol_s = "^[+|-].*";
     private final String symbol_d = "[1-9]";
     private final String symbol_z = "0";
+    private final String symbol_e = "e";
 
     private String inputStr;
     private StringBuilder floatValue;
@@ -35,13 +36,13 @@ public class FloatFSM {
     }
 
     private boolean state_start_() {
-        
-        if (position == inputStr.length()) {
+
+        if (position >= inputStr.length()) {
             return terminate(false);
         }
 
         String s = String.valueOf(inputStr.charAt(position));
-               
+
         if (s.matches(symbol_p)) {
             floatValue.append("0.");
             return state_i_0();
@@ -57,13 +58,13 @@ public class FloatFSM {
 
     private boolean state_i_0() {
         position++;
-        
+
         if (position == inputStr.length()) {
             return terminate(false);
         }
-        
+
         String s = String.valueOf(inputStr.charAt(position));
-        
+
         if (s.matches(symbol_d)) {
             floatValue.append(s);
             return state_t_1();
@@ -74,16 +75,20 @@ public class FloatFSM {
 
     private boolean state_t_1() {
         position++;
-        
+
         if (position == inputStr.length()) {
             return terminate(true);
         }
 
         String s = String.valueOf(inputStr.charAt(position));
-        
+
         if (s.matches(symbol_d)) {
             floatValue.append(s);
             return state_t_1();
+        }
+        if (s.toLowerCase().matches(symbol_e)) {
+            floatValue.append(s);
+            return state_e_0();
         }
 
         return terminate(false);
@@ -91,16 +96,20 @@ public class FloatFSM {
 
     private boolean state_t_2() {
         position++;
-        
+
         if (position == inputStr.length()) {
             return terminate(true);
         }
 
         String s = String.valueOf(inputStr.charAt(position));
-        
+
         if (s.matches(symbol_p)) {
             floatValue.append(s);
             return state_t_3();
+        }
+        if (s.toLowerCase().matches(symbol_e)) {
+            floatValue.append(s);
+            return state_e_0();
         }
 
         return terminate(false);
@@ -108,7 +117,7 @@ public class FloatFSM {
 
     private boolean state_t_3() {
         position++;
-        
+
         if (position == inputStr.length()) {
             return terminate(true);
         }
@@ -119,24 +128,33 @@ public class FloatFSM {
             floatValue.append(s);
             return state_t_3();
         }
+        if (s.toLowerCase().matches(symbol_e)) {
+            floatValue.append(s);
+            return state_e_0();
+        }
 
         return terminate(false);
     }
 
     private boolean state_t_4() {
         position++;
-        
+
         if (position == inputStr.length()) {
             floatValue.append(".0");
             return terminate(true);
         }
 
         String s = String.valueOf(inputStr.charAt(position));
-    
+
         if (s.matches(symbol_d)) {
             floatValue.append(s);
             return state_t_4();
-        } else if (s.matches(symbol_p)) {
+        }
+        if (s.toLowerCase().matches(symbol_e)) {
+            floatValue.append(s);
+            return state_e_0();
+        }
+        if (s.matches(symbol_p)) {
             floatValue.append(s);
             return state_t_5();
         }
@@ -146,16 +164,75 @@ public class FloatFSM {
 
     private boolean state_t_5() {
         position++;
-        
+
         if (position == inputStr.length()) {
             return terminate(true);
         }
 
         String s = String.valueOf(inputStr.charAt(position));
-        
+
         if (s.matches(symbol_d)) {
             floatValue.append(s);
             return state_t_5();
+        }
+        if (s.toLowerCase().matches(symbol_e)) {
+            floatValue.append(s);
+            return state_e_0();
+        }
+
+        return terminate(false);
+    }
+
+    private boolean state_e_0() {
+        position++;
+
+        if (position == inputStr.length()) {
+            return terminate(false);
+        }
+  
+        String s = String.valueOf(inputStr.charAt(position));
+
+        if (s.matches(symbol_d)) {
+            floatValue.append(s);
+            return state_t_6();
+        }
+        if (s.matches(symbol_s)) {
+            floatValue.append(s);
+            return state_e_1();
+        }
+        
+        return terminate(false);
+    }
+
+    private boolean state_e_1() {
+        position++;
+
+        if (position == inputStr.length()) {
+            return terminate(false);
+        }
+
+        String s = String.valueOf(inputStr.charAt(position));
+
+        if (s.matches(symbol_d)) {
+            floatValue.append(s);
+            return state_t_6();
+        }
+
+        return terminate(false);
+    }
+
+    private boolean state_t_6() {
+        position++;
+
+        if (position == inputStr.length()) {
+            return terminate(true);
+        }
+
+        String s = String.valueOf(inputStr.charAt(position));
+
+        if (s.matches(symbol_d)) {
+            floatValue.append(s);
+            return state_t_6();
         }
 
         return terminate(false);

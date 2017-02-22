@@ -20,6 +20,8 @@ states['T4'] = True;
 states['T5'] = True;
 states['T6'] = True;
 
+states['E0'] = False;
+states['E1'] = False;
 ########
 # Defining transitions
 ########
@@ -28,6 +30,7 @@ transitions['s'] = ['+', '-']
 transitions['p'] = ['.']
 transitions['z'] = ['0']
 transitions['d'] = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+transitions['e'] = ['e', 'E' ]
 
 def getTransation(char):
     for x in transitions:
@@ -57,6 +60,19 @@ productionRules['T4', 'd'] = 'T4'
 productionRules['T1', 'd'] = 'T1'
 productionRules['T3', 'd'] = 'T3'
 productionRules['T5', 'd'] = 'T5'
+
+productionRules['T1', 'e'] = 'E0'
+productionRules['T2', 'e'] = 'E0'
+productionRules['T3', 'e'] = 'E0'
+productionRules['T4', 'e'] = 'E0'
+productionRules['T5', 'e'] = 'E0'
+
+productionRules['E0', 'd'] = 'T6'
+productionRules['E0', 's'] = 'E1'
+
+productionRules['E1', 'd'] = 'T6'
+
+productionRules['T6', 'd'] = 'T6'
 
 def getNextState(currentState, transation):
     try:
